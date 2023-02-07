@@ -1,1 +1,26 @@
-<h1>Hello Wold!</h1>
+<ul>
+  {% for item in data %}
+     <h1>{{item.name}}</h1> 
+  {% endfor %}
+</ul>
+
+
+  <html>
+    <!-- <html>
+      <meta http-equiv="refresh" content="5" >
+    </html> -->
+    <body>
+      <button type="button" onclick="myFunction()">Кликни меня</button>
+        {% for item in data %}
+        <p id="demo"> Привет!2 {{item.name}}</p>
+        {% endfor %}
+      <script>
+        function myFunction() {
+          document.querySelectorAll("#demo").forEach(el =>{
+            el.innerHTML += ' нажали'
+          }) ;
+        }
+    </script>
+
+    </body>
+  </html>

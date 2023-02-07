@@ -1,9 +1,34 @@
 <html>
-  <!-- <html>
-      <meta http-equiv="refresh" content="5" >
-    </html> -->
+  <head>
+    <!-- <link rel="stylesheet" type="text/css" href="{{ url_for( 'static', filename='style.css', v=1)}}"> -->
+    <link rel="stylesheet" type="text/css" href="{{ url_for( 'static', filename='style.css')}}">
+  </head>
   <body>
-    <button type="button" onclick="myFunction()">Кликни меня</button>
+      <h1>Вагоны</h1>
+      {% if data %}
+      <table>
+        <tbody class="tables">
+          <tr>
+            {% for item in table %}
+            <th>{{item}}</th>
+            {% endfor %}
+          </tr>
+          {% for vagons in data %}
+          <tr>
+            {% for vagon in vagons %}
+            <td>{{ vagon }}</td>
+            {% endfor %}
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+      {% endif %}
+    </div>
+  </body>
+</html>
+
+
+<!-- <button type="button" onclick="myFunction()">Кликни меня</button>
     {% for item in data %}
     <p id="demo">{{item}}</p>
     {% endfor %}
@@ -13,6 +38,4 @@
           console.log('hi')
         })
       }
-    </script>
-  </body>
-</html>
+    </script> -->

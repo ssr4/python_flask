@@ -1,0 +1,28 @@
+<head>
+  <meta charset="UTF-8">
+  <link rel="stylesheet" type="text/css" href="{{ url_for( 'static', filename='style.css')}}">
+</head>
+<a href="{{ url_for('main') }}" class="btn">Вернуться</a>
+<h1 style="text-align: center;">Вагоны</h1>
+{% if count  %}
+<h2 style="text-align: center;">Количество вагонов: {{count}}</h2>
+{% endif %}
+{% if data %}
+<table>
+  <tbody class="tables">
+    <tr>
+      {% for item in table %}
+      <th>{{item}}</th>
+      {% endfor %}
+    </tr>
+    {% for vagons in data %}
+    <tr>
+      {% for vagon in vagons %}
+      <td>{{ vagon }}</td>
+      {% endfor %}
+    </tr>
+    {% endfor %}
+  </tbody>
+</table>
+{% endif %}
+</div>

@@ -3,12 +3,23 @@
 }
 table {
   border-collapse: collapse;
-  width: 50%;
+  width: 20%;
+  display: block;
+  margin: auto;
 }
 
 td,
 th {
-  border: 1px solid;
+  border: 2px solid;
   text-align: center;
   padding: 5px;
+}
+
+.btn {
+  display: inline-block; /* Строчно-блочный элемент */
+  background: #8c959d; /* Серый цвет фона */
+  color: #fff; /* Белый цвет текста */
+  padding: 1rem 1.5rem; /* Поля вокруг текста */
+  text-decoration: none; /* Убираем подчёркивание */
+  border-radius: 3px; /* Скругляем уголки */
 }

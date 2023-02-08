@@ -1,17 +1,31 @@
 from flask import Flask, render_template, request,flash, redirect
-import cx_Oracle, configparser
+import cx_Oracle, configparser, os
+from werkzeug.utils import secure_filename
 # from livereload import Server
 
 config = configparser.ConfigParser()
 config.read('./config.ini', encoding='utf-8-sig')
 
+# папка для сохранения загруженных файлов
+UPLOAD_FOLDER = '/home/al/Desktop/Python/python_flask'
+
+# расширения файлов, которые разрешено загружать
+ALLOWED_EXTENSIONS = {'xls', 'xlsx'}
+
 app = Flask(__name__, instance_relative_config=True)
 app.config["TEMPLATES_AUTO_RELOAD"] = True
 app.config['SECRET_KEY'] = 'yo0ecrasdasdasdeey'
+app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
+app.config['MAX_CONTENT_LENGTH'] = 1 * 1000 * 1000
 
 table = {
     'НОМЕР ВАГОНА', 'КОД', 'НОМЕР СОСТАВА','СУБГР'
 }
+
+def allowed_file(filename):
+    """ Функция проверки расширения файла """
+    return '.' in filename and \
+           filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
 
 class Database:
     def __init__(self):
@@ -39,12 +53,32 @@ def vagons():
         return db.count_of_vagons()[0]
     return render_template('vagons.html', data=db_query(),count = db_count(), table=table)
 
-@app.route("/from_file")
+@app.route("/from_file", methods=['GET', 'POST'])
 def from_file():
-    def db_query():
-        db = Database()
-        return db.count_of_vagons()
-    return render_template('excel.html')
+    content = ''
+    if request.method == 'POST':
+        # проверим, передается ли в запросе файл 
+        if 'file' not in request.files:
+            # После перенаправления на страницу загрузки
+            flash('Не могу прочитать файл')
+            return redirect(request.url)
+        file = request.files['file']
+        if file.filename == '':
+            flash('Нет выбранного файла')
+            return redirect(request.url)
+        if file and allowed_file(file.filename):
+            # безопасно извлекаем оригинальное имя файла
+            filename = secure_filename(file.filename)
+            if(filename!=file.filename):
+                flash('В названии файлов не должно быть русских символов')
+                return redirect(request.url)
+            # сохраняем файл
+            file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
+            flash('Файл успешно загружен! ')
+            content = 'Файл: '
+        else:
+            flash('Файл неверного формата! Доступный формат: xls, xlsx')
+    return render_template('excel.html', data = content)
 
 
 

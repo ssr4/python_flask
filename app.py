@@ -55,7 +55,7 @@ def vagons():
 
 @app.route("/from_file", methods=['GET', 'POST'])
 def from_file():
-    content = ''
+    content = False
     if request.method == 'POST':
         # проверим, передается ли в запросе файл 
         if 'file' not in request.files:
@@ -75,9 +75,9 @@ def from_file():
             # сохраняем файл
             file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
             flash('Файл успешно загружен! ')
-            content = 'Файл: '
+            content = True
         else:
-            flash('Файл неверного формата! Доступный формат: xls, xlsx')
+            flash('Файл неверного формата! Допустмый формат: xls, xlsx')
     return render_template('excel.html', data = content)
 
 

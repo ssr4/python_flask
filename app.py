@@ -1,5 +1,5 @@
 from flask import Flask, render_template, request,flash, redirect
-import cx_Oracle, configparser, os
+import cx_Oracle, configparser, os, pandas as pd
 from werkzeug.utils import secure_filename
 # from livereload import Server
 
@@ -10,7 +10,7 @@ config.read('./config.ini', encoding='utf-8-sig')
 UPLOAD_FOLDER = '/home/al/Desktop/Python/python_flask'
 
 # расширения файлов, которые разрешено загружать
-ALLOWED_EXTENSIONS = {'xls', 'xlsx'}
+ALLOWED_EXTENSIONS = {'xls', 'xlsx', 'xml', 'csv'}
 
 app = Flask(__name__, instance_relative_config=True)
 app.config["TEMPLATES_AUTO_RELOAD"] = True
@@ -67,6 +67,7 @@ def from_file():
             flash('Нет выбранного файла')
             return redirect(request.url)
         if file and allowed_file(file.filename):
+            type_filename = file.filename.rsplit('.', 1)[1].lower()
             # безопасно извлекаем оригинальное имя файла
             filename = secure_filename(file.filename)
             if(filename!=file.filename):
@@ -75,9 +76,27 @@ def from_file():
             # сохраняем файл
             file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
             flash('Файл успешно загружен! ')
+            if(type_filename == 'xls'):
+                try:
+                    out = pd.read_excel(filename, sheet_name='Лист1')
+                except Exception as e:
+                    try: 
+                        out = pd.read_excel('./test.xls', sheet_name='Sheet1')
+                    except Exception as e:
+                        flash('Ошибка в наименовании листа, попробуйте изменить на Sheet1 или Лист1', e)
+                        return redirect(request.url)
+                finally:
+                    flash(out.values.tolist())
+            # with open(f"{filename}", "r") as f:
+            #      # считываем строку
+            #     line = f.readline()
+            #     # выводим строку
+            #     flash(line.strip())
+            os.remove(f"{filename}")
+            filename=''
             content = True
         else:
-            flash('Файл неверного формата! Допустмый формат: xls, xlsx')
+            flash('Файл неверного формата! Допустимый формат: xls, xlsx, xml, csv')
     return render_template('excel.html', data = content)
 
 

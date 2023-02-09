@@ -13,7 +13,7 @@
   </body>
 </html> -->
 <head>
-   <script> 
+   <!-- <script> 
       function myFunction() {
        if(document.querySelector('.text_field').getAttribute('style') ==='visibility: hidden'){
           document.querySelector('.text_field').setAttribute('style', 'visibility: visible')
@@ -23,7 +23,8 @@
           document.querySelector('.btn').innerHTML ='Посмотреть файл'
        }
       }
-    </script> 
+    </script>  -->
+    <script src="{{ url_for('static', filename='js/script.js') }}"></script>
 </head>
 
 <!doctype html>
@@ -31,21 +32,30 @@
     <h1>Загрузить новый файл</h1>
     <form method=post enctype=multipart/form-data>
       <input type=file name=file>
-      <input type=submit value=Upload>
+      <input type=submit value=Загрузить>
     </form>
-{% with messages = get_flashed_messages() %}
+{% if data  %}
+  <h3> Файл успешно загружен!</h3>
+  {% with messages = get_flashed_messages() %}
    {% if messages %}
       {% for message in messages %}
          {{ message }}<br>
       {% endfor %}
    {% endif %}
-{% endwith %}
-{% if data  %}
+  {% endwith %}
   <button type="button" class='btn' onclick="myFunction()">Посмотреть файл </button>
+  
 {% endif %}
 <div class="text_field" style="visibility: hidden">
-  <textarea name="comment" form="usrform" style=" margin-top: 10px;">
-    Enter text here...
+  <textarea name="comment" form="usrform" style=" width: 50%; height: 60%; font-size: 20px;">
+    Список вагонов:
+  {% with messages = get_flashed_messages() %}
+   {% if messages %}
+      {% for message in messages %}
+         {{ message }}
+      {% endfor %}
+   {% endif %}
+  {% endwith %}
   </textarea>
 </div>
   </html>

@@ -76,7 +76,7 @@ def from_file():
                 return redirect(request.url)
             # сохраняем файл
             file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
-            flash('Файл успешно загружен! ')
+            # flash('Файл успешно загружен! ')
             if(type_filename == 'xls'):
                 try:
                     out = pd.read_excel(filename)
@@ -84,16 +84,27 @@ def from_file():
                         flash('Ошибка в наименовании листа, попробуйте изменить на Sheet1 или Лист1', e)
                         return redirect(request.url)
                 finally:
+                    for it in out:
+                        flash((str(it)) + '   \t длина  - ' + str(len(str(it))))
+                        if len(str(it)) < 8:
+                            flash('меньше')    
                     for item in out.values:
                         for it in item:
-                            flash(it)
+                            flash((str(it)) + '   \t длина  - ' + str(len(str(it))))
+                            if len(str(it)) < 8:
+                                flash('меньше')
+                    # flash(out.items())
+                    # for col_name, data in out.items():
+	                #     flash("col_name:",col_name, "\ndata:",data)
+                    # for item in out.values:
+                    #     for it in item:
+                    #         flash(it)
             os.remove(f"{filename}")
             filename=''
             content = True
         else:
             flash('Файл неверного формата! Допустимый формат: xls, xlsx, xml, csv')
     return render_template('excel.html', data = content)
-
 
 
 if __name__ == "__main__":

@@ -36,15 +36,16 @@
 {% with messages = get_flashed_messages() %}
    {% if messages %}
       {% for message in messages %}
-         {{ message }}
+         {{ message }}<br>
       {% endfor %}
    {% endif %}
 {% endwith %}
 {% if data  %}
   <button type="button" class='btn' onclick="myFunction()">Посмотреть файл </button>
 {% endif %}
-
 <div class="text_field" style="visibility: hidden">
-  <textarea name="comment" form="usrform" style=" margin-top: 10px;">Enter text here...</textarea>
+  <textarea name="comment" form="usrform" style=" margin-top: 10px;">
+    Enter text here...
+  </textarea>
 </div>
   </html>

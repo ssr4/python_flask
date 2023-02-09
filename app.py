@@ -1,6 +1,7 @@
 from flask import Flask, render_template, request,flash, redirect
 import cx_Oracle, configparser, os, pandas as pd
 from werkzeug.utils import secure_filename
+from openpyxl import load_workbook
 # from livereload import Server
 
 config = configparser.ConfigParser()
@@ -78,20 +79,14 @@ def from_file():
             flash('Файл успешно загружен! ')
             if(type_filename == 'xls'):
                 try:
-                    out = pd.read_excel(filename, sheet_name='Лист1')
+                    out = pd.read_excel(filename)
                 except Exception as e:
-                    try: 
-                        out = pd.read_excel('./test.xls', sheet_name='Sheet1')
-                    except Exception as e:
                         flash('Ошибка в наименовании листа, попробуйте изменить на Sheet1 или Лист1', e)
                         return redirect(request.url)
                 finally:
-                    flash(out.values.tolist())
-            # with open(f"{filename}", "r") as f:
-            #      # считываем строку
-            #     line = f.readline()
-            #     # выводим строку
-            #     flash(line.strip())
+                    for item in out.values:
+                        for it in item:
+                            flash(it)
             os.remove(f"{filename}")
             filename=''
             content = True

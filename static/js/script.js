@@ -1,5 +1,4 @@
 function myFunction() {
-  // confirm('are you sure? ')
   if (
     document.querySelector('.text_field').getAttribute('style') ===
     'visibility: hidden'
@@ -19,7 +18,11 @@ function myFunction() {
     .then((response) => {
       return response.json()
     })
-    .then((myjson) => {
-      console.log(myjson)
+    .then((content) => {
+      content.forEach((vagon) => {
+        console.log(vagon)
+      })
     })
 }
+
+const isNumeric = (n) => !!Number(n)

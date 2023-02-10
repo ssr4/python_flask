@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request,flash, redirect
+from flask import Flask, render_template, request,flash, redirect, jsonify
 import cx_Oracle, configparser, os, pandas as pd
 from werkzeug.utils import secure_filename
 from openpyxl import load_workbook
@@ -39,6 +39,7 @@ class Database:
         self.cur.execute('select COUNT(*) from own_vag')
         return self.cur.fetchone()
 
+
 @app.route("/")
 def main():
     return render_template('index.html', table=table)
@@ -57,6 +58,7 @@ def vagons():
 @app.route("/from_file", methods=['GET', 'POST'])
 def from_file():
     content = False
+
     if request.method == 'POST':
         # проверим, передается ли в запросе файл 
         if 'file' not in request.files:
@@ -86,13 +88,16 @@ def from_file():
                 finally:
                     for it in out:
                         flash((str(it)) + '   \t длина  - ' + str(len(str(it))))
+                        vs.set_vagons((str(it)))
                         if len(str(it)) < 8:
                             flash('меньше')    
                     for item in out.values:
                         for it in item:
                             flash((str(it)) + '   \t длина  - ' + str(len(str(it))))
+                            vs.set_vagons((str(it)))
                             if len(str(it)) < 8:
                                 flash('меньше')
+                    flash(vs.get_vagons())
                     # flash(out.items())
                     # for col_name, data in out.items():
 	                #     flash("col_name:",col_name, "\ndata:",data)
@@ -106,6 +111,19 @@ def from_file():
             flash('Файл неверного формата! Допустимый формат: xls, xlsx, xml, csv')
     return render_template('excel.html', data = content)
 
+class Vagons_set():
+    def __init__(self) -> None:
+        self.vagons = []
+    def set_vagons(self, vagon):
+        self.vagons.append(vagon)
+    def get_vagons(self):
+        return self.vagons
+
+vs = Vagons_set()
+
+@app.route('/vagons_from_file')
+def vagons_from_file():
+    return vs.get_vagons()
 
 if __name__ == "__main__":
     app.run(debug=True)

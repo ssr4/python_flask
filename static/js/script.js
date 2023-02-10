@@ -19,10 +19,17 @@ function myFunction() {
       return response.json()
     })
     .then((content) => {
+      let count = 0
       content.forEach((vagon) => {
-        console.log(vagon)
+        // проверка что в строке исключительно числа
+        if (!/\D/.test(vagon)) {
+          if (vagon.length === 8) count++
+        }
       })
+      console.log('количество вагонов ', count)
     })
 }
 
-const isNumeric = (n) => !!Number(n)
+// const isNumeric = (n) => !!Number(n)
+// // Возвращаем 0 если строка не содержит цифр.
+// const ExistNum = (n) => n.replace(/\D/g, '') || 0

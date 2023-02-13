@@ -1,16 +1,22 @@
 var vagonsFile = [],
-  vagons = []
+  vagons = {}
 
 getAllVagons()
 
 // функция получения всех вагонов чтобы потом сравнивать на совпадение
 function getAllVagons() {
+  let i = 0
   fetch('/get_all_vagons')
     .then((response) => {
       return response.json()
     })
     .then((items) => {
-      console.log(items)
+      items.forEach((item) => {
+        vagons[item[0]] = ++i
+      })
+    })
+    .then(() => {
+      console.log(vagons)
     })
 }
 

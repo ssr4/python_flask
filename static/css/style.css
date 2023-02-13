@@ -22,4 +22,5 @@ th {
   padding: 1rem 1.5rem; /* Поля вокруг текста */
   text-decoration: none; /* Убираем подчёркивание */
   border-radius: 3px; /* Скругляем уголки */
+  cursor: pointer;
 }

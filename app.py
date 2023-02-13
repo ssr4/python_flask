@@ -35,6 +35,9 @@ class Database:
     def list_of_vagon(self):
         self.cur.execute('select * from own_vag')
         return self.cur.fetchmany(15)
+    def list_of_vagon_all(self):
+        self.cur.execute('select * from own_vag')
+        return self.cur.fetchall()
     def count_of_vagons(self):
         self.cur.execute('select COUNT(*) from own_vag')
         return self.cur.fetchone()
@@ -64,7 +67,7 @@ def vagons():
     def db_count():
         db = Database()
         return db.count_of_vagons()[0]
-    return render_template('vagons.html', data=db_query(),count = db_count(), table=table)
+    return render_template('vagons.html', data=db_query(), count = db_count(), table=table)
 
 @app.route("/from_file", methods=['GET', 'POST'])
 def from_file():
@@ -94,7 +97,7 @@ def from_file():
                 try:
                     out = pd.read_excel(filename)
                 except Exception as e:
-                        flash('Ошибка в наименовании листа, попробуйте изменить на Sheet1 или Лист1', e)
+                        flash(e)
                         return redirect(request.url)
                 finally:
                     for it in out:
@@ -113,5 +116,12 @@ def from_file():
 def vagons_from_file():
     return vs.get_vagons()
 
+@app.route('/get_all_vagons')
+def get_all_vagons():
+    db = Database()
+    return db.list_of_vagon_all()
+
 if __name__ == "__main__":
     app.run(debug=True)
+
+    # убрать флеш и  после хагрузки сделать вагоны таблицей

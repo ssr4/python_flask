@@ -1,61 +1,40 @@
-<!-- <!DOCTYPE html>
-<html>
-  <head>
-    <meta charset="utf-8" />
-    <title>Отправка файла на сервер</title>
-  </head>
-  <body>
-    <form enctype="multipart/form-data" method="post">
-      <p>
-        <input type="file" name="f" /> <input type="submit" value="Отправить" />
-      </p>
-    </form>
-  </body>
-</html> -->
 <head>
-   <!-- <script> 
-      function myFunction() {
-       if(document.querySelector('.text_field').getAttribute('style') ==='visibility: hidden'){
-          document.querySelector('.text_field').setAttribute('style', 'visibility: visible')
-          document.querySelector('.btn').innerHTML ='Скрыть файл'
-       }else{
-          document.querySelector('.text_field').setAttribute('style', 'visibility: hidden')
-          document.querySelector('.btn').innerHTML ='Посмотреть файл'
-       }
-      }
-    </script>  -->
     <script src="{{ url_for('static', filename='js/script.js') }}"></script>
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="{{ url_for( 'static', filename='css/style.css')}}"
+    />
 </head>
-
 <!doctype html>
     <title>Загрузить новый файл</title>
+    <a href="{{ url_for('main') }}" class="btn" >Вернуться</a>
     <h1>Загрузить новый файл</h1>
     <form method=post enctype=multipart/form-data>
-      <input type=file name=file>
+      <input type=file name=file class="inputItem">
       <input type=submit value=Загрузить>
     </form>
+    {% with messages = get_flashed_messages() %}
+    {% if messages %}
+       {% for message in messages %}
+          <h2>{{ message }}<br></h2>
+       {% endfor %}
+    {% endif %}
+   {% endwith %}
 {% if data  %}
   <h3> Файл успешно загружен!</h3>
-  {% with messages = get_flashed_messages() %}
-   {% if messages %}
-      {% for message in messages %}
-         {{ message }}<br>
-      {% endfor %}
-   {% endif %}
-  {% endwith %}
-  <button type="button" class='btn' onclick="myFunction()">Посмотреть файл </button>
-  
+  <a class="btn" id="vagonList" onclick="myFunction()">Посмотреть список вагонов </a>
 {% endif %}
-<div class="text_field" style="visibility: hidden">
-  <textarea name="comment" form="usrform" style=" width: 50%; height: 60%; font-size: 20px;">
-    Список вагонов:
-  {% with messages = get_flashed_messages() %}
+<div class="textField" style="visibility: hidden">
+  <textarea name="comment" form="usrform" style=" width: 20%; height: 60%; font-size: 20px;font-weight: bold;" id="textArea">
+   Список вагонов:
+  </textarea>
+</div>
+</html>
+  <!-- {% with messages = get_flashed_messages() %}
    {% if messages %}
       {% for message in messages %}
          {{ message }}
       {% endfor %}
    {% endif %}
-  {% endwith %}
-  </textarea>
-</div>
-  </html>
+  {% endwith %} -->

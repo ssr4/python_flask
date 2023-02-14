@@ -53,6 +53,13 @@ class Vagons_set():
         return self.vagons
 vs = Vagons_set()
 
+class Test():
+    def __init__(self) -> None:
+        self.test = 's'
+    def increase(self):
+        self.test += 'sds'
+        return self.test
+test = Test()
 
 @app.route("/")
 def main():
@@ -71,6 +78,7 @@ def vagons():
 
 @app.route("/from_file", methods=['GET', 'POST'])
 def from_file():
+    # так сначала мы сюда попали окей, потом еще раз попадаем при загрузке файла, но нам подгружать вагоны до или после запроса???
     content = False
     name_file = ''
     vs.clear_vagons()

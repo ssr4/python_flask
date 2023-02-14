@@ -15,9 +15,6 @@ function getAllVagons() {
         vagons[item[0]] = ++i
       })
     })
-    .then(() => {
-      console.log(vagons)
-    })
 }
 
 function myFunction() {
@@ -40,9 +37,14 @@ function myFunction() {
           answer = true
         vagonsFile = items
         do {
-          i++
+          // проверка на то, есть ли символы отличные от цифр
           if (!/\D/.test(items[i])) {
+            // проверка на то, что в номере вагона 8 цифр
             if (items[i].length === 8) {
+              // проверка на то, есть ли в базе еще такие же номера вагонов при добавлении
+              if (!isEmpty(vagons[items[i]])) {
+                console.log(items[i])
+              }
               count++
               textArea.value += `\t${items[i]}\n`
             } else if (
@@ -53,7 +55,7 @@ function myFunction() {
             if (!confirm(`Это не номер вагона ${items[i]}. Продолжить?`))
               answer = false
           }
-        } while (answer && i < items.length)
+        } while (answer && i++ < items.length - 1)
         textArea.value += `Количество вагонов \n  для добавления: ${count}`
       })
   }
@@ -78,10 +80,8 @@ function switchButton() {
   }
 }
 
-function isEmpty(obj) {
-  for (let key in obj) {
-    // если тело цикла начнет выполняться - значит в объекте есть свойства
-    return false
-  }
-  return true
+function isEmpty(str) {
+  if (typeof str === 'undefined' || !str || str.length === 0 || str === '')
+    return true
+  else return false
 }

@@ -7,28 +7,33 @@
     />
 </head>
 <!doctype html>
-    <title>Загрузить новый файл</title>
-    <a href="{{ url_for('main') }}" class="btn" >Вернуться</a>
-    <h1>Загрузить новый файл</h1>
-    <form method=post enctype=multipart/form-data>
-      <input type=file name=file class="inputItem">
-      <input type=submit value=Загрузить>
-    </form>
-    {% with messages = get_flashed_messages() %}
-    {% if messages %}
-       {% for message in messages %}
-          <h2>{{ message }}<br></h2>
-       {% endfor %}
+  <title>Загрузить новый файл</title>
+  <a href="{{ url_for('main') }}" class="btn" >Вернуться</a>
+  <div class="lds-ring"><div></div><div></div><div></div><div></div></div>
+  <div class="content" style="visibility: hidden;">
+      <h1>Загрузить новый файл</h1>
+      <form method=post enctype=multipart/form-data>
+        <input type=file name=file class="inputItem">
+        <input type=submit value=Загрузить>
+      </form>
+      {% with messages = get_flashed_messages() %}
+      {% if messages %}
+        {% for message in messages %}
+            <h2>{{ message }}<br></h2>
+        {% endfor %}
+      {% endif %}
+    {% endwith %}
+  {% if data  %}
+    {% if filename%}
+      <h3> Файл {{filename}} успешно загружен!</h3>
     {% endif %}
-   {% endwith %}
-{% if data  %}
-  <h3> Файл успешно загружен!</h3>
-  <a class="btn" id="vagonList" onclick="myFunction()">Посмотреть список вагонов </a>
-{% endif %}
-<div class="textField" style="visibility: hidden">
-  <textarea name="comment" form="usrform" style=" width: 20%; height: 60%; font-size: 20px;font-weight: bold;" id="textArea">
-   Список вагонов:
-  </textarea>
+    <a class="btn" id="vagonList" onclick="myFunction()">Посмотреть список вагонов </a>
+  {% endif %}
+  <div class="textField" style="visibility: hidden">
+    <textarea name="comment" form="usrform" style=" width: 20%; height: 60%; font-size: 20px;font-weight: bold;" id="textArea">
+    Список вагонов:
+    </textarea>
+  </div>
 </div>
 </html>
   <!-- {% with messages = get_flashed_messages() %}

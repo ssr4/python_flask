@@ -72,6 +72,7 @@ def vagons():
 @app.route("/from_file", methods=['GET', 'POST'])
 def from_file():
     content = False
+    name_file = ''
     vs.clear_vagons()
     if request.method == 'POST':
         # проверим, передается ли в запросе файл 
@@ -92,7 +93,7 @@ def from_file():
                 return redirect(request.url)
             # сохраняем файл
             file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
-            # flash('Файл успешно загружен! ')
+            name_file = filename
             if(type_filename == 'xls'):
                 try:
                     out = pd.read_excel(filename)
@@ -110,7 +111,7 @@ def from_file():
             content = True
         else:
             flash('Файл неверного формата! Допустимый формат: xls, xlsx, xml, csv')
-    return render_template('excel.html', data = content)
+    return render_template('excel.html', data = content, filename = name_file)
 
 @app.route('/vagons_from_file')
 def vagons_from_file():

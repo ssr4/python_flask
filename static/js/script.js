@@ -1,8 +1,6 @@
 var vagonsFile = [],
   vagons = {}
-
 getAllVagons()
-
 // функция получения всех вагонов чтобы потом сравнивать на совпадение
 function getAllVagons() {
   let i = 0
@@ -15,6 +13,11 @@ function getAllVagons() {
         vagons[item[0]] = ++i
       })
     })
+    .then(() => {
+      document.querySelector('.lds-ring').style.visibility = 'hidden'
+      document.querySelector('.lds-ring').style.height = '0px'
+      document.querySelector('.content').style.visibility = 'visible'
+    })
 }
 
 function myFunction() {
@@ -25,7 +28,7 @@ function myFunction() {
     // textArea.value = '\tСписок вагонов:\n'
     return
   }
-
+  console.log(vagons, Object.keys(vagons).length)
   if (isEmpty(vagonsFile)) {
     fetch('/vagons_from_file')
       .then((response) => {
@@ -43,7 +46,7 @@ function myFunction() {
             if (items[i].length === 8) {
               // проверка на то, есть ли в базе еще такие же номера вагонов при добавлении
               if (!isEmpty(vagons[items[i]])) {
-                console.log(items[i])
+                // answer = false
               }
               count++
               textArea.value += `\t${items[i]}\n`

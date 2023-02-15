@@ -14,7 +14,7 @@ function getAllVagons() {
       })
     })
     .then(() => {
-      checkTheVagons()
+      test()
       document.querySelector('.lds-ring').style.visibility = 'hidden'
       document.querySelector('.lds-ring').style.height = '0px'
       switchButton()
@@ -111,19 +111,106 @@ async function checkTheVagons() {
   }
 }
 
-test()
-async function test() {
-  let generator = generateSequence(1, 5)
-  for await (let value of generator) {
-    alert(value)
+function test() {
+  const textArea = document.querySelector('#textArea')
+  if (isEmpty(vagonsFile)) {
+    fetch('/vagons_from_file')
+      .then((response) => {
+        return response.json()
+      })
+      .then((items) => {
+        let count = 0
+        let i = 0,
+          answer = true
+        vagonsFile = items
+        test2(items)
+        // do {
+        //   // проверка на то, есть ли символы отличные от цифр
+        //   if (!/\D/.test(items[i])) {
+        //     // проверка на то, что в номере вагона 8 цифр
+        //     if (items[i].length === 8) {
+        //       // проверка на то, есть ли в базе еще такие же номера вагонов при добавлении
+        //       if (!isEmpty(vagons[items[i]])) {
+        //         // answer = false
+        //         // swal({
+        //         //   title: 'Are you sure?',
+        //         //   text: 'Once deleted, you will not be able to recover this imaginary file!',
+        //         //   icon: 'warning',
+        //         //   buttons: true,
+        //         //   dangerMode: true,
+        //         // })
+        //         //   .then((willDelete) => {
+        //         //     if (willDelete) {
+        //         //       swal('Poof! Your imaginary file has been deleted!', {
+        //         //         icon: 'success',
+        //         //       })
+        //         //     } else {
+        //         //       return
+        //         //     }
+        //         //   })
+        //         //   .then(() => {
+        //         //     alert('here')
+        //         //   })
+        //       }
+        //       count++
+        //       textArea.value += `\t${items[i]}\n`
+        //     } else if (
+        //       !confirm(`Номер вагона ${items[i]} не 8 цифр. Продолжить?`)
+        //     )
+        //       answer = false
+        //   } else {
+        //     if (!confirm(`Это не номер вагона ${items[i]}. Продолжить?`))
+        //       answer = false
+        //   }
+        // } while (answer && i++ < items.length - 1)
+        // textArea.value += `Количество вагонов \n  для добавления: ${count}`
+      })
   }
 }
 
-async function* generateSequence(start, end) {
-  for (let i = start; i <= end; i++) {
+async function test2(items) {
+  let generator = generateSequence(0, items)
+  for await (let value of generator) {
+  }
+}
+
+async function* generateSequence(start, items) {
+  let end = items.length,
+    count = 0,
+    i = 0,
+    answer = true
+  for (let i = start; i < end; i++) {
     // ура, можно использовать await!
     await new Promise((resolve) => {
-      resolve()
+      if (!/\D/.test(items[i])) {
+        // проверка на то, что в номере вагона 8 цифр
+        if (items[i].length === 8) {
+          // проверка на то, есть ли в базе еще такие же номера вагонов при добавлении
+          if (!isEmpty(vagons[items[i]])) {
+            swal({
+              title: 'Are you sure?',
+              text: 'Once deleted, you will not be able to recover this imaginary file!',
+              icon: 'warning',
+              buttons: true,
+              dangerMode: true,
+            }).then((willDelete) => {
+              if (willDelete) {
+                swal('Poof! Your imaginary file has been deleted!', {
+                  icon: 'success',
+                })
+                resolve()
+              } else {
+                return
+              }
+            })
+          } else resolve()
+          count++
+          textArea.value += `\t${items[i]}\n`
+        } else if (!confirm(`Номер вагона ${items[i]} не 8 цифр. Продолжить?`))
+          return
+      } else {
+        if (!confirm(`Это не номер вагона ${items[i]}. Продолжить?`)) return
+      }
     })
     yield i
   }

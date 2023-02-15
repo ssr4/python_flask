@@ -55,7 +55,7 @@ function switchButton() {
   }
 }
 
-function checkTheVagons() {
+async function checkTheVagons() {
   const textArea = document.querySelector('#textArea')
   if (isEmpty(vagonsFile)) {
     fetch('/vagons_from_file')
@@ -75,7 +75,25 @@ function checkTheVagons() {
               // проверка на то, есть ли в базе еще такие же номера вагонов при добавлении
               if (!isEmpty(vagons[items[i]])) {
                 // answer = false
-                console.log(items[i], vagons[items[i]])
+                // swal({
+                //   title: 'Are you sure?',
+                //   text: 'Once deleted, you will not be able to recover this imaginary file!',
+                //   icon: 'warning',
+                //   buttons: true,
+                //   dangerMode: true,
+                // })
+                //   .then((willDelete) => {
+                //     if (willDelete) {
+                //       swal('Poof! Your imaginary file has been deleted!', {
+                //         icon: 'success',
+                //       })
+                //     } else {
+                //       return
+                //     }
+                //   })
+                //   .then(() => {
+                //     alert('here')
+                //   })
               }
               count++
               textArea.value += `\t${items[i]}\n`
@@ -90,6 +108,24 @@ function checkTheVagons() {
         } while (answer && i++ < items.length - 1)
         textArea.value += `Количество вагонов \n  для добавления: ${count}`
       })
+  }
+}
+
+test()
+async function test() {
+  let generator = generateSequence(1, 5)
+  for await (let value of generator) {
+    alert(value)
+  }
+}
+
+async function* generateSequence(start, end) {
+  for (let i = start; i <= end; i++) {
+    // ура, можно использовать await!
+    await new Promise((resolve) => {
+      resolve()
+    })
+    yield i
   }
 }
 

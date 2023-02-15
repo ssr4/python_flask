@@ -15,6 +15,9 @@ function getAllVagons() {
     })
     .then(() => {
       checkTheVagons()
+      document.querySelector('.lds-ring').style.visibility = 'hidden'
+      document.querySelector('.lds-ring').style.height = '0px'
+      switchButton()
     })
   // .then(() => {
   //   document.querySelector('.lds-ring').style.visibility = 'hidden'
@@ -24,8 +27,13 @@ function getAllVagons() {
 }
 
 function myFunction() {
-  if (switchButton()) return
-  if (isEmpty(Object.keys(vagons).length)) getAllVagons()
+  // если кнопка скрыть результаты то мы выходим из функции
+  // if (switchButton()) return
+  // если у нас вагоны не получены то мы их получаем
+  if (isEmpty(Object.keys(vagons).length)) {
+    document.querySelector('.lds-ring').style.visibility = 'visible'
+    getAllVagons()
+  } else if (switchButton()) return
 }
 
 function switchButton() {
@@ -67,7 +75,7 @@ function checkTheVagons() {
               // проверка на то, есть ли в базе еще такие же номера вагонов при добавлении
               if (!isEmpty(vagons[items[i]])) {
                 // answer = false
-                console.log(items[i])
+                console.log(items[i], vagons[items[i]])
               }
               count++
               textArea.value += `\t${items[i]}\n`

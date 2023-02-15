@@ -7,13 +7,6 @@
     />
 </head>
 <!doctype html>
- {% with messages = get_flashed_messages() %}
-      {% if messages %}
-        {% for message in messages %}
-            <h2>{{ message }}<br></h2>
-        {% endfor %}
-      {% endif %}
-    {% endwith %}
   <title>Загрузить новый файл</title>
   <a href="{{ url_for('main') }}" class="btn" >Вернуться</a>
   <!-- <div class="lds-ring"><div></div><div></div><div></div><div></div></div> -->
@@ -23,13 +16,20 @@
         <input type=file name=file class="inputItem">
         <input type=submit value=Загрузить>
       </form>
-     
+      {% with messages = get_flashed_messages() %}
+      {% if messages %}
+        {% for message in messages %}
+            <h2>{{ message }}<br></h2>
+        {% endfor %}
+      {% endif %}
+    {% endwith %}
   {% if data  %}
     {% if filename%}
-      <h3> Файл {{filename}} успешно загружен!</h3>
+      <p style="font-size: 20px;"> Файл <b style="font-size: 25px">{{filename}} </b>успешно загружен!</p>
     {% endif %}
     <a class="btn" id="vagonList" onclick="myFunction()">Посмотреть список вагонов </a>
   {% endif %}
+  <div class="lds-ring" style="visibility: hidden;"><div></div><div></div><div></div><div></div></div>
   <div class="textField" style="visibility: hidden">
     <textarea name="comment" form="usrform" style=" width: 20%; height: 60%; font-size: 20px;font-weight: bold;" id="textArea">
     Список вагонов:
@@ -37,10 +37,4 @@
   </div>
 <!-- </div> -->
 </html>
-  <!-- {% with messages = get_flashed_messages() %}
-   {% if messages %}
-      {% for message in messages %}
-         {{ message }}
-      {% endfor %}
-   {% endif %}
-  {% endwith %} -->
+

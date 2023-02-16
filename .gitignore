@@ -1,2 +1,4 @@
 config.ini
-config.ini
+package.json
+package-lock.json
+sweetalert.min.js

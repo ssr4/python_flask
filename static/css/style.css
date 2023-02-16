@@ -17,7 +17,7 @@ th {
 
 .btn {
   display: inline-block; /* Строчно-блочный элемент */
-  background: #8c959d; /* Серый цвет фона */
+  background: #419152; /* Серый цвет фона */
   color: #fff; /* Белый цвет текста */
   padding: 1rem 1.5rem; /* Поля вокруг текста */
   text-decoration: none; /* Убираем подчёркивание */
@@ -58,4 +58,68 @@ th {
   100% {
     transform: rotate(360deg);
   }
+}
+
+/* стили для формы загрузки файла */
+.input-file {
+  position: relative;
+  display: inline-block;
+}
+.input-file-text {
+  padding: 0 10px;
+  line-height: 40px;
+  text-align: left;
+  height: 40px;
+  display: block;
+  float: left;
+  box-sizing: border-box;
+  width: 200px;
+  border-radius: 6px 0px 0 6px;
+  border: 1px solid #ddd;
+}
+.input-file-btn {
+  position: relative;
+  display: inline-block;
+  cursor: pointer;
+  outline: none;
+  text-decoration: none;
+  font-size: 24px;
+  vertical-align: middle;
+  color: rgb(255 255 255);
+  text-align: center;
+  border-radius: 0 4px 4px 0;
+  background-color: #419152;
+  line-height: 22px;
+  height: 40px;
+  padding: 10px 20px;
+  box-sizing: border-box;
+  border: none;
+  margin: 0;
+  transition: background-color 0.25s;
+}
+.input-file input[type='file'] {
+  position: absolute;
+  z-index: -1;
+  opacity: 0;
+  display: block;
+  width: 0;
+  height: 0;
+}
+
+/* Focus */
+.input-file input[type='file']:focus + .input-file-btn {
+  box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
+}
+
+/* Hover/active */
+.input-file:hover .input-file-btn {
+  background-color: #59be6e;
+}
+.input-file:active .input-file-btn {
+  background-color: #2e703a;
+}
+
+/* Disabled */
+.input-file input[type='file']:disabled + .input-file-btn {
+  background-color: #eee;
 }

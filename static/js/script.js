@@ -119,51 +119,8 @@ function test() {
         return response.json()
       })
       .then((items) => {
-        let count = 0
-        let i = 0,
-          answer = true
         vagonsFile = items
         test2(items)
-        // do {
-        //   // проверка на то, есть ли символы отличные от цифр
-        //   if (!/\D/.test(items[i])) {
-        //     // проверка на то, что в номере вагона 8 цифр
-        //     if (items[i].length === 8) {
-        //       // проверка на то, есть ли в базе еще такие же номера вагонов при добавлении
-        //       if (!isEmpty(vagons[items[i]])) {
-        //         // answer = false
-        //         // swal({
-        //         //   title: 'Are you sure?',
-        //         //   text: 'Once deleted, you will not be able to recover this imaginary file!',
-        //         //   icon: 'warning',
-        //         //   buttons: true,
-        //         //   dangerMode: true,
-        //         // })
-        //         //   .then((willDelete) => {
-        //         //     if (willDelete) {
-        //         //       swal('Poof! Your imaginary file has been deleted!', {
-        //         //         icon: 'success',
-        //         //       })
-        //         //     } else {
-        //         //       return
-        //         //     }
-        //         //   })
-        //         //   .then(() => {
-        //         //     alert('here')
-        //         //   })
-        //       }
-        //       count++
-        //       textArea.value += `\t${items[i]}\n`
-        //     } else if (
-        //       !confirm(`Номер вагона ${items[i]} не 8 цифр. Продолжить?`)
-        //     )
-        //       answer = false
-        //   } else {
-        //     if (!confirm(`Это не номер вагона ${items[i]}. Продолжить?`))
-        //       answer = false
-        //   }
-        // } while (answer && i++ < items.length - 1)
-        // textArea.value += `Количество вагонов \n  для добавления: ${count}`
       })
   }
 }
@@ -187,33 +144,50 @@ async function* generateSequence(start, items) {
         if (items[i].length === 8) {
           // проверка на то, есть ли в базе еще такие же номера вагонов при добавлении
           if (!isEmpty(vagons[items[i]])) {
-            swal({
-              title: 'Are you sure?',
-              text: 'Once deleted, you will not be able to recover this imaginary file!',
-              icon: 'warning',
-              buttons: true,
-              dangerMode: true,
-            }).then((willDelete) => {
-              if (willDelete) {
-                swal('Poof! Your imaginary file has been deleted!', {
-                  icon: 'success',
-                })
-                resolve()
-              } else {
-                return
+            swal(
+              `Вагон с номером ${items[i]} уже имеется в базе данных, выберите оставлять запись или добавлять новую`,
+              {
+                icon: 'warning',
+                buttons: {
+                  cancel: 'Старая запись',
+                  catch: {
+                    text: 'Новая запись',
+                    value: 'change',
+                  },
+                },
+              }
+            ).then((value) => {
+              switch (value) {
+                case 'change':
+                  swal('Меняем!', 'Добавлен новая запись', 'success').then(
+                    () => {
+                      textArea.value += `\t${items[i]}\n`
+                      resolve()
+                    }
+                  )
+                  break
+                default:
+                  swal(
+                    'Оставляем!',
+                    'Вы оставили запись без изменений',
+                    'success'
+                  ).then(() => resolve())
+                  break
               }
             })
-          } else resolve()
+          } else {
+            textArea.value += `\t${items[i]}\n`
+            resolve()
+          }
           count++
-          textArea.value += `\t${items[i]}\n`
         } else if (!confirm(`Номер вагона ${items[i]} не 8 цифр. Продолжить?`))
           return
       } else {
         if (!confirm(`Это не номер вагона ${items[i]}. Продолжить?`)) return
       }
     })
-    yield i
   }
+  yield i
 }
 
 function isEmpty(str) {

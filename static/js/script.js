@@ -207,12 +207,44 @@ async function* generateSequence(start, items) {
                 break
             }
           })
-        } else if (!confirm(`Номер вагона ${items[i]} не 8 цифр. Продолжить?`))
-          return
-        else resolve()
+        } else
+          swal(`Номер вагона ${items[i]} меньше 8 цифр. Продолжить?`, {
+            icon: 'warning',
+            buttons: {
+              cancel: 'Выйти',
+              catch: {
+                text: 'Пропустить',
+                value: 'skip',
+              },
+            },
+          }).then((value) => {
+            switch (value) {
+              case 'skip':
+                resolve()
+                break
+              default:
+                break
+            }
+          })
       } else {
-        if (!confirm(`Это не номер вагона ${items[i]}. Продолжить?`)) return
-        else resolve()
+        swal(`Это не номер вагона ${items[i]}. Продолжить?`, {
+          icon: 'warning',
+          buttons: {
+            cancel: 'Выйти',
+            catch: {
+              text: 'Пропустить',
+              value: 'skip',
+            },
+          },
+        }).then((value) => {
+          switch (value) {
+            case 'skip':
+              resolve()
+              break
+            default:
+              break
+          }
+        })
       }
     })
   }

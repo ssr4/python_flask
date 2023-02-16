@@ -20,17 +20,14 @@ function getAllVagons() {
       })
     })
     .then(() => {
-      test()
+      getVagonsFromFile()
       document.querySelector('.lds-ring').style.visibility = 'hidden'
       document.querySelector('.lds-ring').style.height = '0px'
       switchButton()
     })
 }
 
-function myFunction() {
-  // если кнопка скрыть результаты то мы выходим из функции
-  // if (switchButton()) return
-  // если у нас вагоны не получены то мы их получаем
+function checkList() {
   if (isEmpty(Object.keys(vagons).length)) {
     document.querySelector('.lds-ring').style.visibility = 'visible'
     getAllVagons()
@@ -56,63 +53,7 @@ function switchButton() {
   }
 }
 
-async function checkTheVagons() {
-  const textArea = document.querySelector('#textArea')
-  if (isEmpty(vagonsFile)) {
-    fetch('/vagons_from_file')
-      .then((response) => {
-        return response.json()
-      })
-      .then((items) => {
-        let count = 0
-        let i = 0,
-          answer = true
-        vagonsFile = items
-        do {
-          // проверка на то, есть ли символы отличные от цифр
-          if (!/\D/.test(items[i])) {
-            // проверка на то, что в номере вагона 8 цифр
-            if (items[i].length === 8) {
-              // проверка на то, есть ли в базе еще такие же номера вагонов при добавлении
-              if (!isEmpty(vagons[items[i]])) {
-                // answer = false
-                // swal({
-                //   title: 'Are you sure?',
-                //   text: 'Once deleted, you will not be able to recover this imaginary file!',
-                //   icon: 'warning',
-                //   buttons: true,
-                //   dangerMode: true,
-                // })
-                //   .then((willDelete) => {
-                //     if (willDelete) {
-                //       swal('Poof! Your imaginary file has been deleted!', {
-                //         icon: 'success',
-                //       })
-                //     } else {
-                //       return
-                //     }
-                //   })
-                //   .then(() => {
-                //     alert('here')
-                //   })
-              }
-              count++
-              textArea.value += `\t${items[i]}\n`
-            } else if (
-              !confirm(`Номер вагона ${items[i]} не 8 цифр. Продолжить?`)
-            )
-              answer = false
-          } else {
-            if (!confirm(`Это не номер вагона ${items[i]}. Продолжить?`))
-              answer = false
-          }
-        } while (answer && i++ < items.length - 1)
-        textArea.value += `Количество вагонов \n  для добавления: ${count}`
-      })
-  }
-}
-
-function test() {
+function getVagonsFromFile() {
   const textArea = document.querySelector('#textArea')
   if (isEmpty(vagonsFile)) {
     fetch('/vagons_from_file')
@@ -121,22 +62,21 @@ function test() {
       })
       .then((items) => {
         vagonsFile = items
-        test2(items)
+        getVagonSet(items)
       })
   }
 }
 
-async function test2(items) {
-  let generator = generateSequence(0, items)
+async function getVagonSet(items) {
+  let generator = checkVagons(0, items)
   for await (let value of generator) {
   }
 }
 
-async function* generateSequence(start, items) {
+async function* checkVagons(start, items) {
   let end = items.length,
     count = 0,
-    i = 0,
-    answer = true
+    i = 0
   for (let i = start; i < end; i++) {
     // ура, можно использовать await!
     await new Promise((resolve) => {
@@ -188,7 +128,7 @@ async function* generateSequence(start, items) {
             buttons: {
               cancel: 'Обрезать',
               catch: {
-                text: 'Пропустить',
+                text: 'Продолжить',
                 value: 'change',
               },
             },
@@ -213,7 +153,7 @@ async function* generateSequence(start, items) {
             buttons: {
               cancel: 'Выйти',
               catch: {
-                text: 'Пропустить',
+                text: 'Продолжить',
                 value: 'skip',
               },
             },

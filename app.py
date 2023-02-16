@@ -53,13 +53,6 @@ class Vagons_set():
         return self.vagons
 vs = Vagons_set()
 
-class Test():
-    def __init__(self) -> None:
-        self.test = 's'
-    def increase(self):
-        self.test += 'sds'
-        return self.test
-test = Test()
 
 @app.route("/")
 def main():

@@ -1,20 +1,13 @@
 <html>
   <head>
     <meta charset="UTF-8" />
-    <!-- <link rel="stylesheet" type="text/css" href="{{ url_for( 'static', filename='style.css', v=1)}}"> -->
     <link
       rel="stylesheet"
       type="text/css"
       href="{{ url_for( 'static', filename='css/style.css')}}"
     />
-    <!-- <script>
-      function myFunction() {
-          console.log('hi')
-      }
-    </script> -->
   </head>
   <body>
-    <!-- <button type="button" onclick="myFunction()">Просмотр вагонов</button> -->
     <a href="{{ url_for('vagons') }}" class="btn">Просмотр вагонов</a>
     <a href="{{ url_for('from_file') }}" class="btn">Вагоны из файла</a>
   </body>

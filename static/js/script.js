@@ -27,6 +27,7 @@ function getAllVagons() {
     })
 }
 
+// функция проверки получения списка вагонов из БД, если не получены то открывается загрузчик
 function checkList() {
   if (isEmpty(Object.keys(vagons).length)) {
     document.querySelector('.lds-ring').style.visibility = 'visible'
@@ -34,6 +35,7 @@ function checkList() {
   } else if (switchButton()) return
 }
 
+// функция кнопки проверки вагонов
 function switchButton() {
   if (
     document.querySelector('.textField').getAttribute('style') ===
@@ -53,8 +55,8 @@ function switchButton() {
   }
 }
 
+// функция получения вагонов из файла
 function getVagonsFromFile() {
-  const textArea = document.querySelector('#textArea')
   if (isEmpty(vagonsFile)) {
     fetch('/vagons_from_file')
       .then((response) => {
@@ -67,12 +69,14 @@ function getVagonsFromFile() {
   }
 }
 
+// асинхронный вызов функции
 async function getVagonSet(items) {
   let generator = checkVagons(0, items)
   for await (let value of generator) {
   }
 }
 
+// функция проверки вагонов из файла, сравнивая с имеющимися вагонами в БД
 async function* checkVagons(start, items) {
   let end = items.length,
     count = 0,
@@ -85,21 +89,13 @@ async function* checkVagons(start, items) {
         if (items[i].length === 8) {
           // проверка на то, есть ли в базе еще такие же номера вагонов при добавлении
           if (!isEmpty(vagons[items[i]])) {
-            swal(
+            alertMessage(
               `Вагон с номером ${items[i]} уже имеется в базе данных, выберите оставлять запись или добавлять новую`,
-              {
-                icon: 'warning',
-                buttons: {
-                  cancel: 'Старая запись',
-                  catch: {
-                    text: 'Новая запись',
-                    value: 'change',
-                  },
-                },
-              }
+              'Старая запись',
+              'Новая запись'
             ).then((value) => {
               switch (value) {
-                case 'change':
+                case 'skip':
                   swal('Меняем!', 'Добавлен новая запись', 'success').then(
                     () => {
                       textArea.value += `\t${items[i]}\n`
@@ -122,19 +118,13 @@ async function* checkVagons(start, items) {
           }
           count++
         } else if (items[i].length > 8) {
-          console.log('here')
-          swal(`Номер вагона ${items[i]} превышает 8 цифр`, {
-            icon: 'warning',
-            buttons: {
-              cancel: 'Обрезать',
-              catch: {
-                text: 'Продолжить',
-                value: 'change',
-              },
-            },
-          }).then((value) => {
+          alertMessage(
+            `Номер вагона ${items[i]} превышает 8 цифр`,
+            'Обрезать',
+            'Пропустить'
+          ).then((value) => {
             switch (value) {
-              case 'change':
+              case 'skip':
                 resolve()
                 break
               default:
@@ -148,16 +138,11 @@ async function* checkVagons(start, items) {
             }
           })
         } else
-          swal(`Номер вагона ${items[i]} меньше 8 цифр. Продолжить?`, {
-            icon: 'warning',
-            buttons: {
-              cancel: 'Выйти',
-              catch: {
-                text: 'Продолжить',
-                value: 'skip',
-              },
-            },
-          }).then((value) => {
+          alertMessage(
+            `Номер вагона ${items[i]} меньше 8 цифр. Продолжить?`,
+            'Выйти',
+            'Пропустить'
+          ).then((value) => {
             switch (value) {
               case 'skip':
                 resolve()
@@ -167,16 +152,11 @@ async function* checkVagons(start, items) {
             }
           })
       } else {
-        swal(`Это не номер вагона ${items[i]}. Продолжить?`, {
-          icon: 'warning',
-          buttons: {
-            cancel: 'Выйти',
-            catch: {
-              text: 'Пропустить',
-              value: 'skip',
-            },
-          },
-        }).then((value) => {
+        alertMessage(
+          `Это не номер вагона ${items[i]}. Продолжить?`,
+          'Выйти',
+          'Пропустить'
+        ).then((value) => {
           switch (value) {
             case 'skip':
               resolve()
@@ -191,6 +171,21 @@ async function* checkVagons(start, items) {
   yield i
 }
 
+// функция вызова предупреждающего окна
+function alertMessage(text, btn1, btn2) {
+  return swal(text, {
+    icon: 'warning',
+    buttons: {
+      cancel: btn1,
+      catch: {
+        text: btn2,
+        value: 'skip',
+      },
+    },
+  })
+}
+
+// функция проверки строки на пустоту
 function isEmpty(str) {
   if (typeof str === 'undefined' || !str || str.length === 0 || str === '')
     return true

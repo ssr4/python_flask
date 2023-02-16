@@ -1,3 +1,6 @@
+// import swal from 'sweetalert'
+// import swal from 'sweetalert'
+
 var vagonsFile = [],
   vagons = {}
 
@@ -80,7 +83,8 @@ async function getVagonSet(items) {
 async function* checkVagons(start, items) {
   let end = items.length,
     count = 0,
-    i = 0
+    i = 0,
+    mas = []
   for (let i = start; i < end; i++) {
     // ура, можно использовать await!
     await new Promise((resolve) => {
@@ -99,6 +103,7 @@ async function* checkVagons(start, items) {
                   swal('Меняем!', 'Добавлен новая запись', 'success').then(
                     () => {
                       textArea.value += `\t${items[i]}\n`
+                      mas.push(items[i])
                       resolve()
                     }
                   )
@@ -114,6 +119,7 @@ async function* checkVagons(start, items) {
             })
           } else {
             textArea.value += `\t${items[i]}\n`
+            mas.push(items[i])
             resolve()
           }
           count++
@@ -131,6 +137,7 @@ async function* checkVagons(start, items) {
                 swal(`Номер вагона обрезан - ${items[i].substr(0, 8)}`).then(
                   () => {
                     textArea.value += `\t${items[i].substr(0, 8)}\n`
+                    mas.push(items[i].substr(0, 8))
                     resolve()
                   }
                 )
@@ -168,6 +175,7 @@ async function* checkVagons(start, items) {
       }
     })
   }
+  // console.log(mas)
   yield i
 }
 

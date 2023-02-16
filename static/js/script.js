@@ -181,10 +181,38 @@ async function* generateSequence(start, items) {
             resolve()
           }
           count++
+        } else if (items[i].length > 8) {
+          console.log('here')
+          swal(`Номер вагона ${items[i]} превышает 8 цифр`, {
+            icon: 'warning',
+            buttons: {
+              cancel: 'Обрезать',
+              catch: {
+                text: 'Пропустить',
+                value: 'change',
+              },
+            },
+          }).then((value) => {
+            switch (value) {
+              case 'change':
+                resolve()
+                break
+              default:
+                swal(`Номер вагона обрезан - ${items[i].substr(0, 8)}`).then(
+                  () => {
+                    textArea.value += `\t${items[i].substr(0, 8)}\n`
+                    resolve()
+                  }
+                )
+                break
+            }
+          })
         } else if (!confirm(`Номер вагона ${items[i]} не 8 цифр. Продолжить?`))
           return
+        else resolve()
       } else {
         if (!confirm(`Это не номер вагона ${items[i]}. Продолжить?`)) return
+        else resolve()
       }
     })
   }

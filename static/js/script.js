@@ -1,6 +1,12 @@
 var vagonsFile = [],
   vagons = {}
 
+// функция загрузки файла
+function inputFile() {
+  const form = document.getElementById('formFile')
+  form.submit()
+}
+
 // функция получения всех вагонов чтобы потом сравнивать на совпадение
 function getAllVagons() {
   let i = 0
@@ -19,11 +25,6 @@ function getAllVagons() {
       document.querySelector('.lds-ring').style.height = '0px'
       switchButton()
     })
-  // .then(() => {
-  //   document.querySelector('.lds-ring').style.visibility = 'hidden'
-  //   document.querySelector('.lds-ring').style.height = '0px'
-  //   document.querySelector('.content').style.visibility = 'visible'
-  // })
 }
 
 function myFunction() {

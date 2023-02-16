@@ -13,9 +13,9 @@
   <!-- <div class="lds-ring"><div></div><div></div><div></div><div></div></div> -->
   <!-- <div class="content" style="visibility: hidden;"> -->
       <h1>Загрузить новый файл</h1>
-      <form method=post enctype=multipart/form-data>
-        <input type=file name=file class="inputItem">
-        <input type=submit value=Загрузить>
+      <form id="formFile" method=post enctype=multipart/form-data >
+        <input type=file name=file class="inputItem" value="Выбрать файл" onchange="inputFile()">
+        <!-- <input type=submit value=Загрузить> -->
       </form>
       {% with messages = get_flashed_messages() %}
       {% if messages %}
@@ -32,7 +32,7 @@
   {% endif %}
   <div class="lds-ring" style="visibility: hidden;"><div></div><div></div><div></div><div></div></div>
   <div class="textField" style="visibility: hidden">
-    <textarea name="comment" form="usrform" style=" width: 20%; height: 60%; font-size: 20px;font-weight: bold;" id="textArea">
+    <textarea name="comment" form="usrform" style=" width: 20%; height: 60%; font-size: 20px;font-weight: bold" id="textArea">
     Список вагонов:
     </textarea>
   </div>

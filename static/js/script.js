@@ -71,15 +71,14 @@ function getVagonsFromFile() {
 // асинхронный вызов функции
 async function getVagonSet(items) {
   let generator = checkVagons(0, items)
-  for await (let value of generator) {
-    createTableBody(value)
-  }
+  for await (let value of generator) createTableBody(value)
 }
 
 // функция проверки вагонов из файла, сравнивая с имеющимися вагонами в БД
 async function* checkVagons(start, items) {
   let end = items.length,
-    mas = []
+    mas = [],
+    masExist = {}
   for (let i = start; i < end; i++) {
     await new Promise((resolve) => {
       // проверка на то, что в номере вагона все цифры
@@ -87,7 +86,7 @@ async function* checkVagons(start, items) {
         // проверка на то, что в номере вагона 8 цифр
         if (items[i].length === 8) {
           // проверка на то, есть ли в базе еще такие же номера вагонов при добавлении
-          if (!isEmpty(vagons[items[i]])) {
+          if (!isEmpty(vagons[items[i]]) && isEmpty(masExist[items[i]])) {
             alertMessage(
               `Вагон с номером ${items[i]} уже имеется в базе данных, выберите оставлять запись или добавлять новую`,
               'Старая запись',
@@ -97,7 +96,10 @@ async function* checkVagons(start, items) {
                 case 'skip':
                   swal('Меняем!', 'Добавлен новая запись', 'success').then(
                     () => {
-                      mas.push(items[i])
+                      if (isEmpty(masExist[items[i]])) {
+                        mas.push(items[i])
+                        masExist[items[i]] = items[i]
+                      }
                       resolve()
                     }
                   )
@@ -112,7 +114,10 @@ async function* checkVagons(start, items) {
               }
             })
           } else {
-            mas.push(items[i])
+            if (isEmpty(masExist[items[i]])) {
+              mas.push(items[i])
+              masExist[items[i]] = items[i]
+            }
             resolve()
           }
         } else if (items[i].length > 8) {
@@ -128,7 +133,10 @@ async function* checkVagons(start, items) {
               default:
                 swal(`Номер вагона обрезан - ${items[i].substr(0, 8)}`).then(
                   () => {
-                    mas.push(items[i].substr(0, 8))
+                    if (isEmpty(masExist[items[i].substr(0, 8)])) {
+                      mas.push(items[i].substr(0, 8)[i])
+                      masExist[items[i].substr(0, 8)] = items[i].substr(0, 8)
+                    }
                     resolve()
                   }
                 )
@@ -168,6 +176,13 @@ async function* checkVagons(start, items) {
   }
   yield mas
 }
+
+// function setVagon() {
+//   if (isEmpty(masExist[items[i]])) {
+//     mas.push(items[i])
+//     masExist[items[i]] = items[i]
+//   }
+// }
 
 // функция вызова предупреждающего окна
 function alertMessage(text, btn1, btn2) {

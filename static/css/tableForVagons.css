@@ -9,7 +9,7 @@
 }
 
 .scroll-table-body {
-  height: 300px;
+  height: 70%;
   overflow-x: auto;
   margin-top: 0px;
   margin-bottom: 20px;
@@ -22,18 +22,20 @@
 }
 .scroll-table thead th {
   font-weight: bold;
-  text-align: left;
+  text-align: center;
   border: none;
   padding: 10px 15px;
-  background: #f9a34b;
-  font-size: 14px;
+  /* background: #f9a34b; */
+  background: #419152;
+  color: #fff; /* Белый цвет текста */
+  font-size: 24px;
 }
 .scroll-table tbody td {
   text-align: left;
   border-left: 1px solid #ddd;
   border-right: 1px solid #ddd;
   padding: 10px 15px;
-  font-size: 14px;
+  font-size: 20px;
   vertical-align: top;
 }
 .scroll-table tbody tr:nth-child(even) {

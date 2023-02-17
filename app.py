@@ -34,9 +34,6 @@ class Database:
         self.cur = self.con.cursor()
     def list_of_vagon(self):
         self.cur.execute('select * from own_vag')
-        return self.cur.fetchmany(15)
-    def list_of_vagon_all(self):
-        self.cur.execute('select * from own_vag')
         return self.cur.fetchall()
     def count_of_vagons(self):
         self.cur.execute('select COUNT(*) from own_vag')
@@ -121,7 +118,7 @@ def vagons_from_file():
 @app.route('/get_all_vagons')
 def get_all_vagons():
     db = Database()
-    return db.list_of_vagon_all()
+    return db.list_of_vagon()
 
 if __name__ == "__main__":
     app.run(debug=True)

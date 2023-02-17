@@ -1,11 +1,6 @@
 html,
 body {
-  max-height: 99%;
-}
-
-.tables {
-  font-size: 25px;
-  display: none;
+  max-height: 90%;
 }
 
 .btn {

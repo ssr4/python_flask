@@ -9,8 +9,7 @@
 </head>
 <!doctype html>
   <title>Загрузить новый файл</title>
-  <a href="{{ url_for('main') }}" class="btn" >Вернуться</a>
-      <h1>Загрузить новый файл</h1>
+  <a href="{{ url_for('main') }}" class="btn" style="margin-bottom: 1%;">Вернуться</a>
       <form method="post" id="formFile" enctype="multipart/form-data">
         <label class="input-file">
              <input type="file" name="file" id="myFile" onchange="inputFile()">        
@@ -29,6 +28,7 @@
       <p style="font-size: 20px;"> Файл <b style="font-size: 25px">{{filename}} </b>успешно загружен!</p>
     {% endif %}
     <a class="btn" id="vagonList" onclick="checkList()">Проверить список вагонов из файла</a>
+    <div style='text-align:center; width:100%; font-size: 25px;'><a id="countVag" style="visibility: hidden;">Количество вагонов: </a></div>
   {% endif %}
   <span class="loader" style="visibility: hidden"></span>
   <div class="scroll-table tableAll">
@@ -46,6 +46,7 @@
       </table>
     </div>
   </div>
+  
 <!-- </div> -->
 </html>
 

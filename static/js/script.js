@@ -40,12 +40,15 @@ function switchButton() {
   let style = document.querySelector('.tableAll').getAttribute('style')
   if (style === 'display: none;' || isEmpty(style)) {
     // проверка нужна, чтоб раньше времени не открывать таблицу
-    if (!isEmpty(style))
+    if (!isEmpty(style)) {
       document.querySelector('.tableAll').style.display = 'block'
+      document.getElementById('countVag').style.visibility = 'visible'
+    }
     document.querySelector('#vagonList').innerHTML = 'Скрыть таблицу вагонов'
     return false
   } else {
     document.querySelector('.tableAll').style.display = 'none'
+    document.getElementById('countVag').style.visibility = 'hidden'
     document.querySelector('#vagonList').innerHTML = 'Показать таблицу вагонов'
     return true
   }
@@ -205,4 +208,6 @@ function tableFill(mas) {
     td[1].textContent = mas[i]
   }
   document.querySelector('.tableAll').style.display = 'block'
+  document.getElementById('countVag').style.visibility = 'visible'
+  document.getElementById('countVag').innerHTML += mas.length
 }

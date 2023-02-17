@@ -37,15 +37,15 @@ function checkList() {
 
 // функция кнопки проверки вагонов
 function switchButton() {
-  let style = document.querySelector('#tables').getAttribute('style')
+  let style = document.querySelector('.tableAll').getAttribute('style')
   if (style === 'display: none;' || isEmpty(style)) {
     // проверка нужна, чтоб раньше времени не открывать таблицу
     if (!isEmpty(style))
-      document.querySelector('#tables').style.display = 'block'
+      document.querySelector('.tableAll').style.display = 'block'
     document.querySelector('#vagonList').innerHTML = 'Скрыть таблицу вагонов'
     return false
   } else {
-    document.querySelector('#tables').style.display = 'none'
+    document.querySelector('.tableAll').style.display = 'none'
     document.querySelector('#vagonList').innerHTML = 'Показать таблицу вагонов'
     return true
   }
@@ -188,7 +188,8 @@ function isEmpty(str) {
 }
 
 function createTableBody(mas) {
-  let table = document.querySelector('#tables')
+  let table = document.querySelector('.tableBody')
+  console.log(table)
   table.innerHTML += ('<tr>' + '<td></td>'.repeat(2) + '</tr>').repeat(
     mas.length
   )
@@ -198,10 +199,10 @@ function createTableBody(mas) {
 function tableFill(mas) {
   let tr = document.querySelectorAll('#tableVagons tr'),
     td
-  for (let i = 1; i < tr.length; i++) {
+  for (let i = 0; i < tr.length; i++) {
     td = tr[i].querySelectorAll('td')
-    td[0].textContent = i
-    td[1].textContent = mas[i - 1]
+    td[0].textContent = i + 1
+    td[1].textContent = mas[i]
   }
-  document.querySelector('#tables').style.display = 'block'
+  document.querySelector('.tableAll').style.display = 'block'
 }

@@ -1,3 +1,8 @@
+html,
+body {
+  max-height: 99%;
+}
+
 .tables {
   font-size: 25px;
   display: none;
@@ -114,7 +119,6 @@
 }
 
 /* Стили для таблиц */
-
 .scroll-table-body {
   height: 70%;
   overflow-x: auto;
@@ -122,6 +126,11 @@
   margin-bottom: 20px;
   border-bottom: 1px solid #eee;
 }
+
+.tableAll {
+  display: none;
+}
+
 .scroll-table table {
   width: 100%;
   table-layout: fixed;
@@ -138,7 +147,7 @@
   font-size: 24px;
 }
 .scroll-table tbody td {
-  text-align: left;
+  text-align: center;
   border-left: 1px solid #ddd;
   border-right: 1px solid #ddd;
   padding: 10px 15px;

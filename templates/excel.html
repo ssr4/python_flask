@@ -10,12 +10,7 @@
 <!doctype html>
   <title>Загрузить новый файл</title>
   <a href="{{ url_for('main') }}" class="btn" >Вернуться</a>
-  <!-- <div class="lds-ring"><div></div><div></div><div></div><div></div></div> -->
-  <!-- <div class="content" style="visibility: hidden;"> -->
       <h1>Загрузить новый файл</h1>
-      <!-- <form id="formFile" method=post enctype=multipart/form-data >
-        <input type=file name=file class="inputItem" value="Выбрать файл" onchange="inputFile()">
-      </form> -->
       <form method="post" id="formFile" enctype="multipart/form-data">
         <label class="input-file">
              <input type="file" name="file" id="myFile" onchange="inputFile()">        
@@ -36,19 +31,21 @@
     <a class="btn" id="vagonList" onclick="checkList()">Проверить список вагонов из файла</a>
   {% endif %}
   <span class="loader" style="visibility: hidden"></span>
-  <div class="textField" style="visibility: hidden">
-    <textarea name="comment" form="usrform" style=" width: 20%; height: 10%; font-size: 20px;font-weight: bold" id="textArea">
-    Список вагонов:
-    </textarea>
+  <div class="scroll-table tableAll">
+    <table>
+      <thead>
+        <tr>
+          <th>Номер Записи</th>
+          <th>Номер Вагона</th>
+        </tr>
+      </thead>
+    </table>
+    <div class="scroll-table-body">
+      <table id="tableVagons">
+        <tbody class="tableBody"></tbody>
+      </table>
+    </div>
   </div>
-  <table id="tableVagons">
-    <tbody id="tables" class="tables">
-      <tr>
-        <th>№</th>
-        <th>Номер Вагона</th>
-      </tr>
-    </tbody>
-  </table>
 <!-- </div> -->
 </html>
 

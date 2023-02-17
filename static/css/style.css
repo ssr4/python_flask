@@ -1,10 +1,11 @@
 .tables {
-  font-size: 20px;
+  font-size: 25px;
 }
+
 table {
   border-collapse: collapse;
   width: 20%;
-  display: block;
+  /* display: block; */
   margin: auto;
 }
 

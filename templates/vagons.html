@@ -1,6 +1,6 @@
 <head>
   <meta charset="UTF-8">
-  <link rel="stylesheet" type="text/css" href="{{ url_for( 'static', filename='css/style.css')}}">
+  <link rel="stylesheet" type="text/css" href="{{ url_for( 'static', filename='css/tableForVagons.css')}}">
 </head>
 <a href="{{ url_for('main') }}" class="btn">Вернуться</a>
 <h1 style="text-align: center;">Вагоны</h1>
@@ -8,7 +8,8 @@
 <h2 style="text-align: center;">Количество вагонов: {{count}}</h2>
 {% endif %}
 {% if data %}
-<table>
+<!-- <table>
+
   <tbody class="tables">
     <tr>
       {% for item in table %}
@@ -23,6 +24,284 @@
     </tr>
     {% endfor %}
   </tbody>
-</table>
+</table> -->
+<div class="scroll-table">
+	<table>
+		<thead>
+			<tr>
+				<th>Название блюда</th>
+				<th>Белки</th>
+				<th>Жиры</th>
+				<th>Углеводы</th>
+				<th>Ккал</th>
+			</tr>
+		</thead>
+	</table>	
+	<div class="scroll-table-body">
+		<table>
+			<tbody>
+				<tr>
+					<td>Азу</td>
+					<td>11,9</td>
+					<td>14,2</td>
+					<td>10,2</td>
+					<td>214</td>
+				</tr>
+				<tr>
+					<td>Бефстроганов из говядины</td>
+					<td>16,7</td>
+					<td>11,3</td>
+					<td>5,9</td>
+					<td>193</td>
+				</tr>
+				<tr>
+					<td>Бифштекс</td>
+					<td>27,8</td>
+					<td>29,6</td>
+					<td>1,7</td>
+					<td>384</td>
+				</tr>
+				<tr>
+					<td>Блины</td>
+					<td>6,1</td>
+					<td>12,3</td>
+					<td>26</td>
+					<td>233</td>
+				</tr>
+				<tr>
+					<td>Борщ украинский</td>
+					<td>1,1</td>
+					<td>2,2</td>
+					<td>6,7</td>
+					<td>49</td>
+				</tr>
+				<tr>
+					<td>Буженина вареная</td>
+					<td>16,4</td>
+					<td>18,3</td>
+					<td>1</td>
+					<td>233</td>
+				</tr>
+				<tr>
+					<td>Вареники с картофелем</td>
+					<td>4,4</td>
+					<td>3,7</td>
+					<td>18,5</td>
+					<td>125</td>
+				</tr>
+				<tr>
+					<td>Говяжий гуляш</td>
+					<td>14</td>
+					<td>9,2</td>
+					<td>2,6</td>
+					<td>148</td>
+				</tr>
+				<tr>
+					<td>Запеканка творожная</td>
+					<td>17,6</td>
+					<td>4,2</td>
+					<td>14,2</td>
+					<td>168</td>
+				</tr>
+				<tr>
+					<td>Зразы картофельные с капустой</td>
+					<td>3,3</td>
+					<td>3,9</td>
+					<td>15</td>
+					<td>108</td>
+				</tr>
+				<tr>
+					<td>Клецки</td>
+					<td>5</td>
+					<td>4,8</td>
+					<td>25,8</td>
+					<td>160</td>
+				</tr>
+				<tr>
+					<td>Котлеты из курицы</td>
+					<td>18,2</td>
+					<td>10,4</td>
+					<td>13,8</td>
+					<td>222</td>
+				</tr>
+				<tr>
+					<td>Куриное филе вареное</td>
+					<td>30,4</td>
+					<td>3,5</td>
+					<td>0</td>
+					<td>153</td>
+				</tr>
+				<tr>
+					<td>Куриные бедра</td>
+					<td>21,3</td>
+					<td>11</td>
+					<td>0,1</td>
+					<td>185</td>
+				</tr>
+				<tr>
+					<td>Лагман</td>
+					<td>4,3</td>
+					<td>8,9</td>
+					<td>13,3</td>
+					<td>158</td>
+				</tr>
+				<tr>
+					<td>Макароны вареные с жиром</td>
+					<td>3,4</td>
+					<td>5</td>
+					<td>19</td>
+					<td>135</td>
+				</tr>
+				<tr>
+					<td>Овощное рагу (4 сезона)</td>
+					<td>0,5</td>
+					<td>0,1</td>
+					<td>3,8</td>
+					<td>38</td>
+				</tr>
+				<tr>
+					<td>Окрошка мясная с квасом</td>
+					<td>2,1</td>
+					<td>1,7</td>
+					<td>6,3</td>
+					<td>52</td>
+				</tr>
+				<tr>
+					<td>Пельмени</td>
+					<td>11,9</td>
+					<td>12,4</td>
+					<td>29</td>
+					<td>275</td>
+				</tr>
+				<tr>
+					<td>Плов с бараниной (4 сезона)</td>
+					<td>4,2</td>
+					<td>6</td>
+					<td>14,9</td>
+					<td>150</td>
+				</tr>
+				<tr>
+					<td>Рассольник</td>
+					<td>1,4</td>
+					<td>2</td>
+					<td>5</td>
+					<td>42</td>
+				</tr>
+				<tr>
+					<td>Салат крабовый</td>
+					<td>9,2</td>
+					<td>7,4</td>
+					<td>5,9</td>
+					<td>128</td>
+				</tr>
+				<tr>
+					<td>Салат Мимоза</td>
+					<td>5,7</td>
+					<td>14,8</td>
+					<td>7,2</td>
+					<td>183</td>
+				</tr>
+				<tr>
+					<td>Салат Цезарь</td>
+					<td>15</td>
+					<td>10</td>
+					<td>9</td>
+					<td>190</td>
+				</tr>
+				<tr>
+					<td>Самса с курицей</td>
+					<td>11</td>
+					<td>24</td>
+					<td>17</td>
+					<td>325</td>
+				</tr>
+				<tr>
+					<td>Свекольник</td>
+					<td>0,5</td>
+					<td>2</td>
+					<td>4,2</td>
+					<td>36</td>
+				</tr>
+				<tr>
+					<td>Свинина тушеная</td>
+					<td>9,8</td>
+					<td>20,3</td>
+					<td>3,2</td>
+					<td>235</td>
+				</tr>
+				<tr>
+					<td>Солянка домашняя</td>
+					<td>3,5</td>
+					<td>3,5</td>
+					<td>4,3</td>
+					<td>64</td>
+				</tr>
+				<tr>
+					<td>Суп гороховый</td>
+					<td>4,4</td>
+					<td>2,4</td>
+					<td>8,9</td>
+					<td>66</td>
+				</tr>
+				<tr>
+					<td>Суп молочный с макаронами</td>
+					<td>2,2</td>
+					<td>1,9</td>
+					<td>7,9</td>
+					<td>58</td>
+				</tr>
+				<tr>
+					<td>Суп харчо с мясом</td>
+					<td>3,1</td>
+					<td>4,5</td>
+					<td>5,5</td>
+					<td>75</td>
+				</tr>
+				<tr>
+					<td>Сырник творожный</td>
+					<td>18,6</td>
+					<td>3,6</td>
+					<td>18,2</td>
+					<td>183</td>
+				</tr>
+				<tr>
+					<td>Тефтели свиные</td>
+					<td>7</td>
+					<td>10</td>
+					<td>12</td>
+					<td>172</td>
+				</tr>
+				<tr>
+					<td>Уха</td>
+					<td>3,4</td>
+					<td>1</td>
+					<td>5,5</td>
+					<td>46</td>
+				</tr>
+				<tr>
+					<td>Чахохбили с фасолью (4 сезона)</td>
+					<td>6,2</td>
+					<td>5,5</td>
+					<td>3,4</td>
+					<td>87</td>
+				</tr>
+				<tr>
+					<td>Щи из свежей капусты с картофелем</td>
+					<td>1</td>
+					<td>3,8</td>
+					<td>2,1</td>
+					<td>38</td>
+				</tr>
+				<tr>
+					<td>Эскалоп</td>
+					<td>19</td>
+					<td>42,8</td>
+					<td>6,8</td>
+					<td>487</td>
+				</tr>
+			</tbody>
+		</table>
+	</div>	
+</div>
 {% endif %}
 </div>

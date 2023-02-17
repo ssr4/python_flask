@@ -1,6 +1,3 @@
-// import swal from 'sweetalert'
-// import swal from 'sweetalert'
-
 var vagonsFile = [],
   vagons = {}
 
@@ -41,19 +38,14 @@ function checkList() {
 // функция кнопки проверки вагонов
 function switchButton() {
   if (
-    document.querySelector('.textField').getAttribute('style') ===
-    'visibility: hidden'
+    document.querySelector('#tables').getAttribute('style') === 'display: none;'
   ) {
-    document
-      .querySelector('.textField')
-      .setAttribute('style', 'visibility: visible')
-    document.querySelector('#vagonList').innerHTML = 'Скрыть список вагонов'
+    document.querySelector('#tables').style.display = 'block'
+    document.querySelector('#vagonList').innerHTML = 'Скрыть таблицу вагонов'
     return false
   } else {
-    document
-      .querySelector('.textField')
-      .setAttribute('style', 'visibility: hidden')
-    document.querySelector('#vagonList').innerHTML = 'Показать список вагонов'
+    document.querySelector('#tables').style.display = 'none'
+    document.querySelector('#vagonList').innerHTML = 'Показать таблицу вагонов'
     return true
   }
 }
@@ -76,18 +68,17 @@ function getVagonsFromFile() {
 async function getVagonSet(items) {
   let generator = checkVagons(0, items)
   for await (let value of generator) {
+    createTableBody(value)
   }
 }
 
 // функция проверки вагонов из файла, сравнивая с имеющимися вагонами в БД
 async function* checkVagons(start, items) {
   let end = items.length,
-    count = 0,
-    i = 0,
     mas = []
   for (let i = start; i < end; i++) {
-    // ура, можно использовать await!
     await new Promise((resolve) => {
+      // проверка на то, что в номере вагона все цифры
       if (!/\D/.test(items[i])) {
         // проверка на то, что в номере вагона 8 цифр
         if (items[i].length === 8) {
@@ -102,7 +93,6 @@ async function* checkVagons(start, items) {
                 case 'skip':
                   swal('Меняем!', 'Добавлен новая запись', 'success').then(
                     () => {
-                      textArea.value += `\t${items[i]}\n`
                       mas.push(items[i])
                       resolve()
                     }
@@ -118,11 +108,9 @@ async function* checkVagons(start, items) {
               }
             })
           } else {
-            textArea.value += `\t${items[i]}\n`
             mas.push(items[i])
             resolve()
           }
-          count++
         } else if (items[i].length > 8) {
           alertMessage(
             `Номер вагона ${items[i]} превышает 8 цифр`,
@@ -136,7 +124,6 @@ async function* checkVagons(start, items) {
               default:
                 swal(`Номер вагона обрезан - ${items[i].substr(0, 8)}`).then(
                   () => {
-                    textArea.value += `\t${items[i].substr(0, 8)}\n`
                     mas.push(items[i].substr(0, 8))
                     resolve()
                   }
@@ -175,8 +162,7 @@ async function* checkVagons(start, items) {
       }
     })
   }
-  // console.log(mas)
-  yield i
+  yield mas
 }
 
 // функция вызова предупреждающего окна
@@ -198,4 +184,23 @@ function isEmpty(str) {
   if (typeof str === 'undefined' || !str || str.length === 0 || str === '')
     return true
   else return false
+}
+
+function createTableBody(mas) {
+  let table = document.querySelector('#tables')
+  table.innerHTML += ('<tr>' + '<td></td>'.repeat(2) + '</tr>').repeat(
+    mas.length
+  )
+  tableFill(mas)
+}
+
+function tableFill(mas) {
+  let tr = document.querySelectorAll('#tableVagons tr'),
+    td
+  for (let i = 1; i < tr.length; i++) {
+    td = tr[i].querySelectorAll('td')
+    td[0].textContent = i
+    td[1].textContent = mas[i - 1]
+  }
+  document.querySelector('#tables').style.display = 'block'
 }

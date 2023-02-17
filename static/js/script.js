@@ -21,8 +21,8 @@ function getAllVagons() {
     })
     .then(() => {
       getVagonsFromFile()
-      document.querySelector('.lds-ring').style.visibility = 'hidden'
-      document.querySelector('.lds-ring').style.height = '0px'
+      document.querySelector('.loader').style.visibility = 'hidden'
+      document.querySelector('.loader').style.height = '0px'
       switchButton()
     })
 }
@@ -30,17 +30,18 @@ function getAllVagons() {
 // функция проверки получения списка вагонов из БД, если не получены то открывается загрузчик
 function checkList() {
   if (isEmpty(Object.keys(vagons).length)) {
-    document.querySelector('.lds-ring').style.visibility = 'visible'
+    document.querySelector('.loader').style.visibility = 'visible'
     getAllVagons()
   } else if (switchButton()) return
 }
 
 // функция кнопки проверки вагонов
 function switchButton() {
-  if (
-    document.querySelector('#tables').getAttribute('style') === 'display: none;'
-  ) {
-    document.querySelector('#tables').style.display = 'block'
+  let style = document.querySelector('#tables').getAttribute('style')
+  if (style === 'display: none;' || isEmpty(style)) {
+    // проверка нужна, чтоб раньше времени не открывать таблицу
+    if (!isEmpty(style))
+      document.querySelector('#tables').style.display = 'block'
     document.querySelector('#vagonList').innerHTML = 'Скрыть таблицу вагонов'
     return false
   } else {

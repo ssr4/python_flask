@@ -96,10 +96,7 @@ async function* checkVagons(start, items) {
                 case 'skip':
                   swal('Меняем!', 'Добавлен новая запись', 'success').then(
                     () => {
-                      if (isEmpty(masExist[items[i]])) {
-                        mas.push(items[i])
-                        masExist[items[i]] = items[i]
-                      }
+                      setVagon(mas, masExist, items[i])
                       resolve()
                     }
                   )
@@ -114,10 +111,7 @@ async function* checkVagons(start, items) {
               }
             })
           } else {
-            if (isEmpty(masExist[items[i]])) {
-              mas.push(items[i])
-              masExist[items[i]] = items[i]
-            }
+            setVagon(mas, masExist, items[i])
             resolve()
           }
         } else if (items[i].length > 8) {
@@ -133,10 +127,7 @@ async function* checkVagons(start, items) {
               default:
                 swal(`Номер вагона обрезан - ${items[i].substr(0, 8)}`).then(
                   () => {
-                    if (isEmpty(masExist[items[i].substr(0, 8)])) {
-                      mas.push(items[i].substr(0, 8)[i])
-                      masExist[items[i].substr(0, 8)] = items[i].substr(0, 8)
-                    }
+                    setVagon(mas, masExist, items[i].substr(0, 8))
                     resolve()
                   }
                 )
@@ -177,12 +168,12 @@ async function* checkVagons(start, items) {
   yield mas
 }
 
-// function setVagon() {
-//   if (isEmpty(masExist[items[i]])) {
-//     mas.push(items[i])
-//     masExist[items[i]] = items[i]
-//   }
-// }
+function setVagon(mas1, mas2, n) {
+  if (isEmpty(mas2[n])) {
+    mas1.push(n)
+    mas2[n] = n
+  }
+}
 
 // функция вызова предупреждающего окна
 function alertMessage(text, btn1, btn2) {

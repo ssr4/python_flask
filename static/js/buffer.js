@@ -4,6 +4,11 @@ let code, subgr
 
 document.addEventListener('DOMContentLoaded', () => {
   setDynamicResizeOfTextArea()
+  document
+    .getElementById('btnClick')
+    .addEventListener('click', () =>
+      searchVagonsInText(document.querySelector('.area').value)
+    )
 })
 
 function setDynamicResizeOfTextArea() {
@@ -28,7 +33,7 @@ function setDynamicResizeOfTextArea() {
     // Если появляется скролл и его высота клиентской → увеличиваем высоту клиента
     if (area.scrollHeight > area.clientHeight)
       area.style.height = area.scrollHeight + 'px'
-    inputForCodeAndInput()
+    // inputForCodeAndInput()
   })
 }
 
@@ -64,8 +69,11 @@ function inputForCodeAndInput() {
             'success'
           )
           area.readOnly = true
+          searchVagonsInText(area.value)
         } else
-          swal('Необходимо заполнить поля!').then(() => inputForCodeAndInput())
+          swal({
+            title: 'Заполните поля для вставки в таблицу!',
+          }).then(() => inputForCodeAndInput())
         break
       default:
         swal(
@@ -74,7 +82,29 @@ function inputForCodeAndInput() {
           'error'
         )
         area.value = ''
+        area.style.height = '20%'
         break
     }
   })
+}
+
+// функция поиска номера вагонов в тексте
+function searchVagonsInText(text) {
+  let str = '',
+    mas = []
+  for (let char of text) {
+    if (!/\D/.test(char)) {
+      // проверка нужна чтобы проверить что номер вагона не начинается с 0 и 1
+      if (!str.length) {
+        if (char != '0' && char != '1') {
+          str += char
+        }
+      } else str += char
+    }
+    if (str.length === 8) {
+      mas.push(str)
+      str = ''
+    }
+  }
+  console.log(mas)
 }

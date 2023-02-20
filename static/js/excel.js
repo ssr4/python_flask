@@ -1,5 +1,31 @@
+export class Excel {
+  constructor() {
+    this.vagons = {}
+    this.vagonsFile = []
+  }
+
+  get vagons() {
+    return this._vagons
+  }
+
+  set vagons(mas) {
+    this._vagons = mas
+  }
+
+  test() {
+    alert('here')
+  }
+}
+
 var vagonsFile = [],
   vagons = {}
+
+document.addEventListener('DOMContentLoaded', () => {
+  const file = document.querySelector('#myFile'),
+    list = document.querySelector('#vagonList')
+  if (!isEmpty(file)) file.addEventListener('change', () => inputFile())
+  if (!isEmpty(list)) list.addEventListener('click', () => checkList())
+})
 
 // функция загрузки файла
 function inputFile() {
@@ -168,6 +194,7 @@ async function* checkVagons(start, items) {
   yield mas
 }
 
+// функция проверки вагона что он уже существует
 function setVagon(mas1, mas2, n) {
   if (isEmpty(mas2[n])) {
     mas1.push(n)
@@ -198,7 +225,6 @@ function isEmpty(str) {
 
 function createTableBody(mas) {
   let table = document.querySelector('.tableBody')
-  console.log(table)
   table.innerHTML += ('<tr>' + '<td></td>'.repeat(2) + '</tr>').repeat(
     mas.length
   )

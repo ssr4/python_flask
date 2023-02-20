@@ -20,7 +20,7 @@ app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 app.config['MAX_CONTENT_LENGTH'] = 1 * 1000 * 1000
 
 table = {
-    'НОМЕР ВАГОНА', 'КОД', 'НОМЕР СОСТАВА','СУБГР'
+    'НОМЕР ВАГОНА', 'КОД', 'НОМЕР СОСТАВА','ИМЯ'
 }
 
 def allowed_file(filename):
@@ -114,6 +114,11 @@ def from_file():
 @app.route('/vagons_from_file')
 def vagons_from_file():
     return vs.get_vagons()
+
+@app.route('/from_buffer')
+def from_buffer():
+    return render_template('buffer.html')
+
 
 @app.route('/get_all_vagons')
 def get_all_vagons():

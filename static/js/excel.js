@@ -15,6 +15,13 @@ export class Excel {
   test() {
     alert('here')
   }
+
+  // функция проверки строки на пустоту
+  isEmpty(str) {
+    if (typeof str === 'undefined' || !str || str.length === 0 || str === '')
+      return true
+    else return false
+  }
 }
 
 var vagonsFile = [],
@@ -171,6 +178,11 @@ async function* checkVagons(start, items) {
                 resolve()
                 break
               default:
+                swal(
+                  'Выход',
+                  'Вы вышли, необходимо заново загрузить файл',
+                  'error'
+                )
                 break
             }
           })
@@ -185,6 +197,11 @@ async function* checkVagons(start, items) {
               resolve()
               break
             default:
+              swal(
+                'Выход',
+                'Вы вышли, необходимо заново загрузить файл',
+                'error'
+              )
               break
           }
         })

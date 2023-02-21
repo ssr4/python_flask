@@ -142,6 +142,7 @@ export class Excel {
     yield mas
   }
 
+  // создаем тело таблицы
   createTableBody(mas) {
     let table = document.querySelector('.tableBody')
     table.innerHTML += ('<tr>' + '<td></td>'.repeat(2) + '</tr>').repeat(
@@ -150,6 +151,7 @@ export class Excel {
     this.tableFill(mas)
   }
 
+  // заполняем таблицу
   tableFill(mas) {
     let tr = document.querySelectorAll('#tableVagons tr'),
       td
@@ -165,6 +167,7 @@ export class Excel {
     ).innerHTML = `Количество вагонов: ${mas.length}`
   }
 
+  // предупреждение
   alertMessage(text, btn1, btn2) {
     return swal(text, {
       icon: 'warning',
@@ -178,6 +181,7 @@ export class Excel {
     })
   }
 
+  // заполняем массивы вагонов
   setVagon(mas1, mas2, n) {
     if (this.isEmpty(mas2[n])) {
       mas1.push(n)

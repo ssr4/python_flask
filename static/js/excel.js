@@ -12,8 +12,163 @@ export class Excel {
     this._vagons = mas
   }
 
-  test() {
-    alert('here')
+  getAllVagons() {
+    let i = 0,
+      vagons = {}
+    return fetch('/get_all_vagons')
+      .then((response) => {
+        return response.json()
+      })
+      .then((items) => {
+        items.forEach((item) => {
+          vagons[item[0]] = ++i
+        })
+      })
+      .then(() => {
+        this._vagons = vagons
+      })
+  }
+
+  // асинхронный вызов функции
+  async getVagonSet(items) {
+    let generator = this.checkVagons(0, items)
+    for await (let value of generator) console.log(value)
+  }
+
+  // функция проверки вагонов из файла, сравнивая с имеющимися вагонами в БД
+  async *checkVagons(start, items) {
+    let end = items.length,
+      mas = [],
+      masExist = {}
+    for (let i = start; i < end; i++) {
+      await new Promise((resolve) => {
+        // проверка на то, что в номере вагона все цифры
+        if (!/\D/.test(items[i])) {
+          // проверка на то, что в номере вагона 8 цифр
+          if (items[i].length === 8) {
+            // проверка на то, есть ли в базе еще такие же номера вагонов при добавлении
+            if (
+              !this.isEmpty(this._vagons[items[i]]) &&
+              this.isEmpty(masExist[items[i]])
+            ) {
+              this.alertMessage(
+                `Вагон с номером ${items[i]} уже имеется в базе данных, выберите оставлять запись или добавлять новую`,
+                'Старая запись',
+                'Новая запись'
+              ).then((value) => {
+                switch (value) {
+                  case 'skip':
+                    swal('Меняем!', 'Добавлен новая запись', 'success').then(
+                      () => {
+                        this.setVagon(mas, masExist, items[i])
+                        resolve()
+                      }
+                    )
+                    break
+                  default:
+                    swal(
+                      'Оставляем!',
+                      'Вы оставили запись без изменений',
+                      'success'
+                    ).then(() => resolve())
+                    break
+                }
+              })
+            } else {
+              this.setVagon(mas, masExist, items[i])
+              resolve()
+            }
+          } else if (items[i].length > 8) {
+            this.alertMessage(
+              `Номер вагона ${items[i]} превышает 8 цифр`,
+              'Обрезать',
+              'Пропустить'
+            ).then((value) => {
+              switch (value) {
+                case 'skip':
+                  resolve()
+                  break
+                default:
+                  swal(`Номер вагона обрезан - ${items[i].substr(0, 8)}`).then(
+                    () => {
+                      this.setVagon(mas, masExist, items[i].substr(0, 8))
+                      resolve()
+                    }
+                  )
+                  break
+              }
+            })
+          } else
+            this.alertMessage(
+              `Номер вагона ${items[i]} меньше 8 цифр. Продолжить?`,
+              'Выйти',
+              'Пропустить'
+            ).then((value) => {
+              switch (value) {
+                case 'skip':
+                  resolve()
+                  break
+                default:
+                  swal(
+                    'Выход',
+                    'Вы вышли, необходимо заново загрузить файл',
+                    'error'
+                  )
+                  break
+              }
+            })
+        } else {
+          this.alertMessage(
+            `Это не номер вагона ${items[i]}. Продолжить?`,
+            'Выйти',
+            'Пропустить'
+          ).then((value) => {
+            switch (value) {
+              case 'skip':
+                resolve()
+                break
+              default:
+                swal(
+                  'Выход',
+                  'Вы вышли, необходимо заново загрузить файл',
+                  'error'
+                )
+                break
+            }
+          })
+        }
+      })
+    }
+    yield mas
+  }
+
+  createTableBody(mas) {
+    let table = document.querySelector('.tableBody')
+    // table.innerHTML += ('<tr>' + '<td></td>'.repeat(2) + '</tr>').repeat(
+    //   mas.length
+    // )
+    // tableFill(mas)
+  }
+
+  alertMessage(text, btn1, btn2) {
+    console.log('here')
+    return swal(text, {
+      icon: 'warning',
+      buttons: {
+        cancel: btn1,
+        catch: {
+          text: btn2,
+          value: 'skip',
+        },
+      },
+    })
+  }
+
+  setVagon(mas1, mas2, n) {
+    if (isEmpty(mas2[n])) {
+      mas1.push(n)
+      mas2[n] = n
+    }
   }
 
   // функция проверки строки на пустоту
@@ -23,6 +178,8 @@ export class Excel {
     else return false
   }
 }
+
+// конец класса
 
 var vagonsFile = [],
   vagons = {}

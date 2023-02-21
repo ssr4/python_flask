@@ -4,11 +4,10 @@ let code, subgr
 
 document.addEventListener('DOMContentLoaded', () => {
   setDynamicResizeOfTextArea()
-  document
-    .getElementById('btnClick')
-    .addEventListener('click', () =>
-      searchVagonsInText(document.querySelector('.area').value)
-    )
+  document.getElementById('btnClick').addEventListener('click', () => {
+    document.querySelector('.loader').style.visibility = 'visible'
+    searchVagonsInText(document.querySelector('.area').value)
+  })
 })
 
 function setDynamicResizeOfTextArea() {
@@ -18,26 +17,23 @@ function setDynamicResizeOfTextArea() {
   const area = document.querySelector('.area')
   area.addEventListener('input', () => {
     // Если высота больше максимальной
-    if (area.clientHeight > maxHeight) return
-
-    // Если появляется скролл и его ширина больше клиентской → увеличиваем ширину клиента
-    if (area.scrollWidth > area.clientWidth)
-      area.style.width = area.scrollWidth + 'px'
-
-    // Если ширина больше максимально допустимой → даем словам "ломаться" и фиксируем ширину
-    if (area.clientWidth >= maxWidth) {
-      area.style.width = maxWidth
-      area.style.whiteSpace = 'pre-wrap'
-    }
-
-    // Если появляется скролл и его высота клиентской → увеличиваем высоту клиента
-    if (area.scrollHeight > area.clientHeight)
-      area.style.height = area.scrollHeight + 'px'
-    // inputForCodeAndInput()
+    // if (area.clientHeight > maxHeight) return
+    // // Если появляется скролл и его ширина больше клиентской → увеличиваем ширину клиента
+    // if (area.scrollWidth > area.clientWidth)
+    //   area.style.width = area.scrollWidth + 'px'
+    // // Если ширина больше максимально допустимой → даем словам "ломаться" и фиксируем ширину
+    // if (area.clientWidth >= maxWidth) {
+    //   area.style.width = maxWidth
+    //   area.style.whiteSpace = 'pre-wrap'
+    // }
+    // // Если появляется скролл и его высота клиентской → увеличиваем высоту клиента
+    // if (area.scrollHeight > area.clientHeight)
+    //   area.style.height = area.scrollHeight + 'px'
+    // inputForCodeAndName()
   })
 }
 
-function inputForCodeAndInput() {
+function inputForCodeAndName() {
   var form = document.createElement('div')
   const area = document.querySelector('.area')
   form.innerHTML = `
@@ -82,7 +78,7 @@ function inputForCodeAndInput() {
           'error'
         )
         area.value = ''
-        area.style.height = '20%'
+        area.style.height = '100%'
         break
     }
   })
@@ -106,5 +102,11 @@ function searchVagonsInText(text) {
       str = ''
     }
   }
-  console.log(mas)
+
+  excel.getAllVagons().then(() => {
+    document.querySelector('.loader').style.visibility = 'hidden'
+    document.querySelector('.loader').style.height = '0px'
+    excel.getVagonSet(mas)
+  })
+  // excel.getVagonSet(mas)
 }

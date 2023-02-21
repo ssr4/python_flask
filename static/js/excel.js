@@ -46,7 +46,6 @@ export class Excel {
         if (!/\D/.test(items[i])) {
           // проверка на то, что в номере вагона 8 цифр
           if (items[i].length === 8) {
-            console.log(this._vagons[items[i]], masExist[items[i]])
             // проверка на то, есть ли в базе еще такие же номера вагонов при добавлении
             if (
               !this.isEmpty(this._vagons[items[i]]) &&

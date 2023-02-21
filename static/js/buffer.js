@@ -79,9 +79,8 @@ function inputForCodeAndName() {
             'Отлично!',
             'Вы заполнили для вагонов поля имени и группы',
             'success'
-          )
+          ).then(() => searchVagonsInText(area.value))
           // area.readOnly = true
-          searchVagonsInText(area.value)
         } else
           swal({
             title: 'Заполните поля для вставки в таблицу!',
@@ -95,7 +94,6 @@ function inputForCodeAndName() {
           'error'
         )
         area.value = ''
-        area.style.height = '100%'
         break
     }
   })
@@ -121,10 +119,15 @@ function searchVagonsInText(text) {
   }
   document.querySelector('.loader').style.visibility = 'visible'
   // получаем список вагонов из базы данных
-  custom.getAllVagons().then(() => {
-    document.querySelector('.loader').style.visibility = 'hidden'
-    document.querySelector('.loader').style.height = '0px'
-    // проверяем вагоны из буффера с теми, которые в базе данных, переопределяя класс excel
-    custom.getVagonSet(mas)
-  })
+  custom
+    .getAllVagons()
+    .then(() => {
+      document.querySelector('.loader').style.visibility = 'hidden'
+      document.querySelector('.loader').style.height = '0px'
+      // проверяем вагоны из буффера с теми, которые в базе данных, переопределяя класс excel
+      custom.getVagonSet(mas)
+    })
+    .then(() => {
+      console.log(mas)
+    })
 }

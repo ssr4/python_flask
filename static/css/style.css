@@ -5,6 +5,7 @@ body {
 
 .btn {
   display: inline-block; /* Строчно-блочный элемент */
+  transition: background-color 0.25s;
   background: #419152; /* Серый цвет фона */
   color: #fff; /* Белый цвет текста */
   padding: 1rem 1.5rem; /* Поля вокруг текста */
@@ -173,7 +174,6 @@ body {
 
 .btn-group a {
   background-color: #419152; /* Green background */
-  border: 1px solid green; /* Green border */
   color: white; /* White text */
   padding: 10px 24px; /* Some padding */
   margin-right: 1%;

@@ -4,16 +4,14 @@ let code, subgr
 
 document.addEventListener('DOMContentLoaded', () => {
   const area = document.querySelector('.area')
-  setDynamicResizeOfTextArea()
   document.getElementById('btnClick').addEventListener('click', () => {
-    document.querySelector('.loader').style.visibility = 'visible'
     clearAll()
-    searchVagonsInText(area.value)
+    inputForCodeAndName()
   })
   document.getElementById('btnClear').addEventListener('click', () => {
+    clearAll()
     excel._vagons = {}
     area.value = []
-    clearAll()
   })
 })
 
@@ -22,29 +20,6 @@ function clearAll() {
   document.querySelector('.tableBody').innerHTML = ''
   document.getElementById('countVag').style.visibility = 'hidden'
   document.getElementById('countVag').innerHTML = 'Количество вагонов: '
-}
-
-function setDynamicResizeOfTextArea() {
-  // максимальная высота поля для ввода текста - 60 процентов от всей высоты экрана
-  var maxWidth = 200
-  var maxHeight = window.innerHeight * 0.2
-  const area = document.querySelector('.area')
-  area.addEventListener('input', () => {
-    // Если высота больше максимальной
-    // if (area.clientHeight > maxHeight) return
-    // // Если появляется скролл и его ширина больше клиентской → увеличиваем ширину клиента
-    // if (area.scrollWidth > area.clientWidth)
-    //   area.style.width = area.scrollWidth + 'px'
-    // // Если ширина больше максимально допустимой → даем словам "ломаться" и фиксируем ширину
-    // if (area.clientWidth >= maxWidth) {
-    //   area.style.width = maxWidth
-    //   area.style.whiteSpace = 'pre-wrap'
-    // }
-    // // Если появляется скролл и его высота клиентской → увеличиваем высоту клиента
-    // if (area.scrollHeight > area.clientHeight)
-    //   area.style.height = area.scrollHeight + 'px'
-    // inputForCodeAndName()
-  })
 }
 
 function inputForCodeAndName() {
@@ -78,7 +53,7 @@ function inputForCodeAndName() {
             'Вы заполнили для вагонов поля имени и группы',
             'success'
           )
-          area.readOnly = true
+          // area.readOnly = true
           searchVagonsInText(area.value)
         } else
           swal({
@@ -117,11 +92,12 @@ function searchVagonsInText(text) {
       str = ''
     }
   }
-
+  document.querySelector('.loader').style.visibility = 'visible'
+  // получаем список вагонов из базы данных
   excel.getAllVagons().then(() => {
     document.querySelector('.loader').style.visibility = 'hidden'
     document.querySelector('.loader').style.height = '0px'
+    // проверяем вагоны из буффера с теми, которые в базе данныз
     excel.getVagonSet(mas)
   })
-  // excel.getVagonSet(mas)
 }

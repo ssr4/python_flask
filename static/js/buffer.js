@@ -3,12 +3,26 @@ const excel = new ex.Excel()
 let code, subgr
 
 document.addEventListener('DOMContentLoaded', () => {
+  const area = document.querySelector('.area')
   setDynamicResizeOfTextArea()
   document.getElementById('btnClick').addEventListener('click', () => {
     document.querySelector('.loader').style.visibility = 'visible'
-    searchVagonsInText(document.querySelector('.area').value)
+    clearAll()
+    searchVagonsInText(area.value)
+  })
+  document.getElementById('btnClear').addEventListener('click', () => {
+    excel._vagons = {}
+    area.value = []
+    clearAll()
   })
 })
+
+function clearAll() {
+  document.querySelector('.tableAll').style.display = 'none'
+  document.querySelector('.tableBody').innerHTML = ''
+  document.getElementById('countVag').style.visibility = 'hidden'
+  document.getElementById('countVag').innerHTML = 'Количество вагонов: '
+}
 
 function setDynamicResizeOfTextArea() {
   // максимальная высота поля для ввода текста - 60 процентов от всей высоты экрана

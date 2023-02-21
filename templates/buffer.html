@@ -8,20 +8,24 @@
   />
 </head>
 <!doctype html>
-    <h1>Hello World!</h1>
-    <textarea class="area" style="height: 40%; width: 40%">
-      42806576
-      28065753
-      28065753
-      56070600
-      </textarea
-    >
-    <button id="btnClick">Нажми !</button>
+    <title>Загрузка вагонов из буффера</title>
+    <div class="btn-group">
+      <a href="{{ url_for('main') }}" class="btn" style="margin-bottom: 1%;">Вернуться</a>
+      <a id ="btnClick">Проверить список вагонов !</a>
+      <a id ="btnClear">Очистить</a>
+    </div>
+    <textarea placeholder="    Необходимо вставить в это окно скопированный 
+    текст из буффера и проверить содержание. 
+    Например: 
+                        42806576
+                        28065753
+                        28065753
+                        56070600" class="area" style="height: 40%; width: 40%"></textarea>
     <span class="loader" style="visibility: hidden"></span>
     <div
       style="text-align: center; width: 100%; font-size: 25px; margin-top: 2%"
     >
-      <a id="countVag" style="visibility: hidden">Количество вагонов: </a>
+      <a id="countVag" style="visibility: hidden; margin-bottom: 2%;">Количество вагонов: </a>
     </div>
     <div class="scroll-table tableAll">
       <table>

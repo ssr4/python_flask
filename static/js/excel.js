@@ -160,7 +160,9 @@ export class Excel {
     }
     document.querySelector('.tableAll').style.display = 'block'
     document.getElementById('countVag').style.visibility = 'visible'
-    document.getElementById('countVag').innerHTML += mas.length
+    document.getElementById(
+      'countVag'
+    ).innerHTML = `Количество вагонов: ${mas.length}`
   }
 
   alertMessage(text, btn1, btn2) {

@@ -69,6 +69,7 @@ function inputForCodeAndName() {
         } else
           swal({
             title: 'Заполните поля для вставки в таблицу!',
+            // возвращаемся обратно в функцию чтобы заполнить эти поля
           }).then(() => inputForCodeAndInput())
         break
       default:

@@ -1,24 +1,15 @@
-<!DOCTYPE html>
-<html lang="en" style="height: 100%">
-  <head>
-    <meta charset="UTF-8" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <script
-      type="module"
-      src="{{ url_for('static', filename='js/buffer.js') }}"
-    ></script>
-    <script src="{{ url_for('static', filename='js/sweetalert.min.js') }}"></script>
-    <link
-      rel="stylesheet"
-      type="text/css"
-      href="{{ url_for( 'static', filename='css/style.css')}}"
-    />
-    <title>Вагоны из буфера</title>
-  </head>
-  <body style="height: 90%">
+<head>
+  <script type="module" src="{{ url_for('static', filename='js/buffer.js') }}"></script>
+  <script src="{{ url_for('static', filename='js/sweetalert.min.js') }}"></script>
+  <link
+    rel="stylesheet"
+    type="text/css"
+    href="{{ url_for( 'static', filename='css/style.css')}}"
+  />
+</head>
+<!doctype html>
     <h1>Hello World!</h1>
-    <textarea class="area" style="height: 50%; width: 30%">
+    <textarea class="area" style="height: 40%; width: 40%">
       42806576
       28065753
       28065753
@@ -27,5 +18,24 @@
     >
     <button id="btnClick">Нажми !</button>
     <span class="loader" style="visibility: hidden"></span>
-  </body>
+    <div
+      style="text-align: center; width: 100%; font-size: 25px; margin-top: 2%"
+    >
+      <a id="countVag" style="visibility: hidden">Количество вагонов: </a>
+    </div>
+    <div class="scroll-table tableAll">
+      <table>
+        <thead>
+          <tr>
+            <th>Номер Записи</th>
+            <th>Номер Вагона</th>
+          </tr>
+        </thead>
+      </table>
+      <div class="scroll-table-body">
+        <table id="tableVagons">
+          <tbody class="tableBody"></tbody>
+        </table>
+      </div>
+    </div>
 </html>

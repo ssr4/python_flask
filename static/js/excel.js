@@ -32,7 +32,7 @@ export class Excel {
   // асинхронный вызов функции
   async getVagonSet(items) {
     let generator = this.checkVagons(0, items)
-    for await (let value of generator) console.log(value)
+    for await (let value of generator) this.createTableBody(value)
   }
 
   // функция проверки вагонов из файла, сравнивая с имеющимися вагонами в БД
@@ -144,14 +144,26 @@ export class Excel {
 
   createTableBody(mas) {
     let table = document.querySelector('.tableBody')
-    // table.innerHTML += ('<tr>' + '<td></td>'.repeat(2) + '</tr>').repeat(
-    //   mas.length
-    // )
-    // tableFill(mas)
+    table.innerHTML += ('<tr>' + '<td></td>'.repeat(2) + '</tr>').repeat(
+      mas.length
+    )
+    this.tableFill(mas)
+  }
+
+  tableFill(mas) {
+    let tr = document.querySelectorAll('#tableVagons tr'),
+      td
+    for (let i = 0; i < tr.length; i++) {
+      td = tr[i].querySelectorAll('td')
+      td[0].textContent = i + 1
+      td[1].textContent = mas[i]
+    }
+    document.querySelector('.tableAll').style.display = 'block'
+    document.getElementById('countVag').style.visibility = 'visible'
+    document.getElementById('countVag').innerHTML += mas.length
   }
 
   alertMessage(text, btn1, btn2) {
-    console.log('here')
     return swal(text, {
       icon: 'warning',
       buttons: {

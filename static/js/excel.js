@@ -46,6 +46,7 @@ export class Excel {
         if (!/\D/.test(items[i])) {
           // проверка на то, что в номере вагона 8 цифр
           if (items[i].length === 8) {
+            console.log(this._vagons[items[i]], masExist[items[i]])
             // проверка на то, есть ли в базе еще такие же номера вагонов при добавлении
             if (
               !this.isEmpty(this._vagons[items[i]]) &&
@@ -143,6 +144,7 @@ export class Excel {
   }
 
   createTableBody(mas) {
+    console.log('here 1 ')
     let table = document.querySelector('.tableBody')
     table.innerHTML += ('<tr>' + '<td></td>'.repeat(2) + '</tr>').repeat(
       mas.length
@@ -151,6 +153,7 @@ export class Excel {
   }
 
   tableFill(mas) {
+    console.log('here 2 ')
     let tr = document.querySelectorAll('#tableVagons tr'),
       td
     for (let i = 0; i < tr.length; i++) {

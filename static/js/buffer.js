@@ -1,5 +1,32 @@
 import * as ex from './excel.js'
-const excel = new ex.Excel()
+class customExcel extends ex.Excel {
+  createTableBody(mas) {
+    let table = document.querySelector('.tableBody')
+    table.innerHTML += ('<tr>' + '<td></td>'.repeat(4) + '</tr>').repeat(
+      mas.length
+    )
+    this.tableFill(mas)
+  }
+
+  tableFill(mas) {
+    let tr = document.querySelectorAll('#tableVagons tr'),
+      td
+    for (let i = 0; i < tr.length; i++) {
+      td = tr[i].querySelectorAll('td')
+      td[0].textContent = i + 1
+      td[1].textContent = mas[i]
+      td[2].textContent = code
+      td[3].textContent = subgr
+    }
+    document.querySelector('.tableAll').style.display = 'block'
+    document.getElementById('countVag').style.visibility = 'visible'
+    document.getElementById(
+      'countVag'
+    ).innerHTML = `Количество вагонов: ${mas.length}`
+  }
+}
+
+const custom = new customExcel()
 let code, subgr
 
 document.addEventListener('DOMContentLoaded', () => {
@@ -10,7 +37,7 @@ document.addEventListener('DOMContentLoaded', () => {
   })
   document.getElementById('btnClear').addEventListener('click', () => {
     clearAll()
-    excel._vagons = {}
+    custom._vagons = {}
     area.value = []
   })
 })
@@ -43,11 +70,11 @@ function inputForCodeAndName() {
   }).then((value) => {
     switch (value) {
       case 'catch':
-        if (!excel.isEmpty(document.getElementById('input1').value))
+        if (!custom.isEmpty(document.getElementById('input1').value))
           code = document.getElementById('input1').value
-        if (!excel.isEmpty(document.getElementById('input2').value))
+        if (!custom.isEmpty(document.getElementById('input2').value))
           subgr = document.getElementById('input2').value
-        if (!excel.isEmpty(code) && !excel.isEmpty(subgr)) {
+        if (!custom.isEmpty(code) && !custom.isEmpty(subgr)) {
           swal(
             'Отлично!',
             'Вы заполнили для вагонов поля имени и группы',
@@ -59,7 +86,7 @@ function inputForCodeAndName() {
           swal({
             title: 'Заполните поля для вставки в таблицу!',
             // возвращаемся обратно в функцию чтобы заполнить эти поля
-          }).then(() => inputForCodeAndInput())
+          }).then(() => inputForCodeAndName())
         break
       default:
         swal(
@@ -94,10 +121,10 @@ function searchVagonsInText(text) {
   }
   document.querySelector('.loader').style.visibility = 'visible'
   // получаем список вагонов из базы данных
-  excel.getAllVagons().then(() => {
+  custom.getAllVagons().then(() => {
     document.querySelector('.loader').style.visibility = 'hidden'
     document.querySelector('.loader').style.height = '0px'
-    // проверяем вагоны из буффера с теми, которые в базе данныз
-    excel.getVagonSet(mas)
+    // проверяем вагоны из буффера с теми, которые в базе данных, переопределяя класс excel
+    custom.getVagonSet(mas)
   })
 }

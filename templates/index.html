@@ -8,8 +8,17 @@
     />
   </head>
   <body>
-    <a href="{{ url_for('vagons') }}" class="btn">Просмотр вагонов</a>
-    <a href="{{ url_for('from_file') }}" class="btn">Вагоны из файла</a>
-    <a href="{{ url_for('from_buffer') }}" class="btn">Вагоны из буфера</a>
+    <div class="btn-group">
+      <a href="{{ url_for('vagons') }}" class="btn"
+        >Просмотр записей из таблицы Oracle</a
+      ><br />
+      <a href="{{ url_for('from_file') }}" class="btn"
+        >Добавление данных из Excel таблицы в таблицу Oracle</a
+      ><br />
+      <a href="{{ url_for('from_buffer') }}" class="btn"
+        >Добавление данных из буффера в таблицу Oracle</a
+      ><br />
+      <a href="" class="btn">Удаление записей из таблицы Oracle</a>
+    </div>
   </body>
 </html>

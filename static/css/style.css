@@ -172,7 +172,28 @@ body {
   width: 20%;
 }
 
+.btn-group {
+  margin-top: 10%;
+}
+
 .btn-group a {
+  background-color: #419152; /* Green background */
+  color: white; /* White text */
+  width: 30%;
+  cursor: pointer; /* Pointer/hand icon */
+  display: block;
+  margin: auto;
+  height: 17%;
+  word-wrap: break-word;
+  text-align: center;
+  font-size: 30px;
+  line-height: 50px;
+  position: relative;
+  border: 1px solid white;
+  padding: 0 1rem;
+}
+
+.btn-group-relative a {
   background-color: #419152; /* Green background */
   color: white; /* White text */
   padding: 10px 24px; /* Some padding */
@@ -181,18 +202,21 @@ body {
   float: left; /* Float the buttons side by side */
 }
 
-.btn-group a:not(:last-child) {
+.btn-group a:not(:last-child),
+.btn-group-relative a:not(:last-child) {
   border-right: none; /* Prevent double borders */
 }
 
 /* Clear floats (clearfix hack) */
-.btn-group:after {
+.btn-group:after,
+.btn-group-relative:after {
   content: '';
   clear: both;
   display: table;
 }
 
 /* Add a background color on hover */
-.btn-group a:hover {
+.btn-group a:hover,
+.btn-group-relative a:hover {
   background-color: #59be6e;
 }

@@ -120,6 +120,10 @@ def from_buffer():
     return render_template('buffer.html')
 
 
+@app.route('/delete')
+def delete():
+    return render_template('delete.html')
+
 @app.route('/get_all_vagons')
 def get_all_vagons():
     db = Database()
